@@ -7,6 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Calendar, Users, BookOpen, Heart, Award } from "lucide-react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 export default function Home() {
   return (
@@ -57,6 +63,12 @@ export default function Home() {
               >
                 Member Dashboard
               </a>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
             </nav>
           </div>
         </div>
