@@ -14,12 +14,11 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
-import Navbar from "./Navbar";
 
-export default function Dashboard() {
+export default function Navbar() {
   const { isLoaded, isSignedIn, user } = useUser();
   if (!isLoaded || !isSignedIn) {
-    return <h1>Please sign in to access this page.</h1>;
+    return <h1>Error</h1>;
   }
   return (
     <div className="flex flex-col min-h-screen w-full bg-white text-black">
@@ -79,62 +78,6 @@ export default function Dashboard() {
           </div>
         </div>
       </header>
-
-      <SignedIn>
-        <h1>
-          <strong>Welcome {user.firstName}</strong>
-        </h1>
-
-        <br></br>
-
-        <h1>Hours</h1>
-
-        <h2>You have {user.unsafeMetadata.hours as string} hours this year.</h2>
-        <h2>
-          {(user.unsafeMetadata.role as string) == "board" ||
-          (user.unsafeMetadata.role as string) == "lead" ? (
-            <a href="/dashboard/manage_hours">Manage Member Hours</a>
-          ) : (
-            ""
-          )}
-        </h2>
-
-        <br></br>
-
-        <h1>Events</h1>
-        <h2>
-          {(user.unsafeMetadata.role as string) == "board" ||
-          (user.unsafeMetadata.role as string) == "lead" ? (
-            <a href="/dashboard/manage_events">Manage Event Proposals</a>
-          ) : (
-            <a href="/dashboard/propose_events">Propose Event</a>
-          )}
-        </h2>
-      </SignedIn>
-
-      <footer id="contact" className="w-full py-6 bg-gray-100">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-              <Award className="h-6 w-6 text-green-600" />
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
-                © 2024 BASIS Cedar Park NJHS. All rights reserved.
-              </p>
-            </div>
-            <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
-                Contact:{" "}
-                <a
-                  href="mailto:contact@basisnjhs.org"
-                  className="underline hover:text-green-600"
-                >
-                  contact@basisnjhs.org
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

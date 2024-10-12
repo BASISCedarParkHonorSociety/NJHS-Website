@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,11 +17,31 @@ import {
 } from "@clerk/clerk-react";
 import Navbar from "./Navbar";
 
-export default function Dashboard() {
+export default function ManageHours() {
   const { isLoaded, isSignedIn, user } = useUser();
+  const [users, setUsers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const response = await fetch("/api/getUsers");
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUsers();
+  }, []);
+
   if (!isLoaded || !isSignedIn) {
     return <h1>Please sign in to access this page.</h1>;
   }
+
   return (
     <div className="flex flex-col min-h-screen w-full bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -81,35 +102,23 @@ export default function Dashboard() {
       </header>
 
       <SignedIn>
-        <h1>
-          <strong>Welcome {user.firstName}</strong>
-        </h1>
-
-        <br></br>
-
-        <h1>Hours</h1>
-
-        <h2>You have {user.unsafeMetadata.hours as string} hours this year.</h2>
-        <h2>
-          {(user.unsafeMetadata.role as string) == "board" ||
-          (user.unsafeMetadata.role as string) == "lead" ? (
-            <a href="/dashboard/manage_hours">Manage Member Hours</a>
-          ) : (
-            ""
-          )}
-        </h2>
-
-        <br></br>
-
-        <h1>Events</h1>
-        <h2>
-          {(user.unsafeMetadata.role as string) == "board" ||
-          (user.unsafeMetadata.role as string) == "lead" ? (
-            <a href="/dashboard/manage_events">Manage Event Proposals</a>
-          ) : (
-            <a href="/dashboard/propose_events">Propose Event</a>
-          )}
-        </h2>
+        <div className="container mx-auto py-6">
+          <h2 className="text-2xl font-bold mb-4">Registered Users</h2>
+          <ul>
+            {loading ? (
+              <li>Loading...</li>
+            ) : users.length > 0 ? (
+              users.map((registeredUser: any, index: number) => (
+                <li key={index} className="mb-2">
+                  {registeredUser.firstName} {registeredUser.lastName} -{" "}
+                  {registeredUser.email}
+                </li>
+              ))
+            ) : (
+              <li>No registered users found.</li>
+            )}
+          </ul>
+        </div>
       </SignedIn>
 
       <footer id="contact" className="w-full py-6 bg-gray-100">
