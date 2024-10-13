@@ -15,28 +15,66 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
-import Navbar from "./Navbar";
 
 export default function ManageHours() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await fetch("/api/getUsers");
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("/api/v1/users/listUsers");
+      const data = await response.json();
+      setUsers(data.data); // Ensure this matches the response structure
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
+
+  // Get the current user's role
+  const currentUserRole = user?.unsafeMetadata?.role || "user";
+
+  const handleAddHours = async (userID: string) => {
+    const amountToAddString = prompt("Enter the amount of hours to set:");
+    const amountToAdd = parseFloat(amountToAddString || "");
+
+    if (isNaN(amountToAdd)) {
+      alert("Invalid number entered");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "/api/v1/users/editUserHours",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userID: userID, hours: amountToAdd }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Hours updated successfully");
+        // Re-fetch users to update the list
+        fetchUsers();
+      } else {
+        alert(`Error updating hours:${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error updating hours:", error);
+      alert("Error updating hours");
+    }
+  };
 
   if (!isLoaded || !isSignedIn) {
     return <h1>Please sign in to access this page.</h1>;
@@ -100,7 +138,6 @@ export default function ManageHours() {
           </div>
         </div>
       </header>
-
       <SignedIn>
         <div className="container mx-auto py-6">
           <h2 className="text-2xl font-bold mb-4">Registered Users</h2>
@@ -111,7 +148,18 @@ export default function ManageHours() {
               users.map((registeredUser: any, index: number) => (
                 <li key={index} className="mb-2">
                   {registeredUser.firstName} {registeredUser.lastName} -{" "}
-                  {registeredUser.email}
+                  {registeredUser.emailAddresses[0].emailAddress} - Role:{" "}
+                  {registeredUser.unsafeMetadata.role || "N/A"} - Hours:{" "}
+                  {registeredUser.unsafeMetadata.hours || 0}
+                  {(currentUserRole === "admin" ||
+                    currentUserRole === "lead") && (
+                    <button
+                      className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
+                      onClick={() => handleAddHours(registeredUser.id)}
+                    >
+                      Set Hours
+                    </button>
+                  )}
                 </li>
               ))
             ) : (
@@ -120,7 +168,6 @@ export default function ManageHours() {
           </ul>
         </div>
       </SignedIn>
-
       <footer id="contact" className="w-full py-6 bg-gray-100">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
