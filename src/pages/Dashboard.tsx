@@ -22,7 +22,7 @@ export default function Dashboard() {
     return <h1>Please sign in to access this page.</h1>;
   }
   return (
-    <div className="flex flex-col min-h-screen w-full bg-white text-black">
+    <div className="flex flex-col h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container flex h-14 items-center">
           <div className="mr-4 hidden md:flex">
@@ -103,13 +103,46 @@ export default function Dashboard() {
 
         <h1>Events</h1>
         <h2>
-          {(user.unsafeMetadata.role as string) == "board" ||
-          (user.unsafeMetadata.role as string) == "lead" ? (
-            <a href="/dashboard/manage_events">Manage Event Proposals</a>
-          ) : (
-            <a href="/dashboard/propose_events">Propose Event</a>
-          )}
+          <strong>Propose Event to Leadership Team</strong>
         </h2>
+        <form action="https://formsubmit.co/njhs@vaedz.com" method="POST">
+          <input
+            type="hidden"
+            name="_next"
+            value="https://njhs.vaed.in/dashboard"
+          ></input>
+          <input
+            type="hidden"
+            name="_subject"
+            value="New NJHS Event Proposal"
+          ></input>
+          <input type="hidden" name="_captcha" value="false"></input>
+          <h2>Event</h2>
+          <input
+            className="bg-white border-2"
+            type="text"
+            name="event"
+            required
+          ></input>
+          <h2>Details</h2>
+          <input
+            className="bg-white border-2"
+            type="text"
+            name="details"
+            required
+          ></input>
+          <h2>Link to Organization</h2>
+          <input
+            className="bg-white border-2"
+            type="link"
+            name="link"
+            required
+          ></input>
+          <br></br>
+          <button className="bg-green-400 border-2" type="submit">
+            Send Proposal
+          </button>
+        </form>
       </SignedIn>
 
       <footer id="contact" className="w-full py-6 bg-gray-100">

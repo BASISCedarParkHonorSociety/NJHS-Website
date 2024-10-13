@@ -13,10 +13,13 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
+import { useState } from "react";
 
 export default function Home() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
   return (
-    <div className="flex flex-col min-h-screen w-full bg-white text-black">
+    <div className="flex flex-col h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container flex h-14 items-center">
           <div className="mr-4 hidden md:flex">
@@ -75,73 +78,31 @@ export default function Home() {
       </header>
 
       <main className="flex-1 flex flex-col w-full">
-        <section className="relative flex-1 flex items-center justify-center w-full py-12 md:py-24 lg:py-32 xl:py-48">
-          <div className="absolute inset-0">
-            <div className="carousel relative">
-              <div className="carousel-item">
-                <img
-                  src="/path/to/image1.jpg"
-                  alt="Image 1"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="carousel-item">
-                <img
-                  src="/path/to/image2.jpg"
-                  alt="Image 2"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="carousel-item">
-                <img
-                  src="/path/to/image3.jpg"
-                  alt="Image 3"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+        <section className="relative flex-1 flex items-center justify-center w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-green-400">
+          <div className="flex flex-col items-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
+                Welcome to the BASIS Cedar Park NJHS Chapter
+              </h1>
+              <p className="mx-auto max-w-[700px] text-gray-200 md:text-xl">
+                Empowering students through scholarship, service, leadership,
+                character, and citizenship.
+              </p>
             </div>
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-              <button
-                className="w-3 h-3 rounded-full bg-white"
-                data-carousel-slide="0"
-              ></button>
-              <button
-                className="w-3 h-3 rounded-full bg-white"
-                data-carousel-slide="1"
-              ></button>
-              <button
-                className="w-3 h-3 rounded-full bg-white"
-                data-carousel-slide="2"
-              ></button>
-            </div>
-          </div>
-          <div className="container relative px-4 md:px-6">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
-                  Welcome to the BASIS Cedar Park NJHS Chapter
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-200 md:text-xl">
-                  Empowering students through scholarship, service, leadership,
-                  character, and citizenship.
-                </p>
-              </div>
-              <div className="space-x-4">
-                <Button
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                  asChild
-                >
-                  <a href="#membership">Join NJHS</a>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="text-green-600 border-green-600 hover:bg-green-50"
-                  asChild
-                >
-                  <a href="#activities">Our Activities</a>
-                </Button>
-              </div>
+            <div className="space-x-4">
+              <Button
+                className="bg-green-600 hover:bg-green-700 text-white"
+                asChild
+              >
+                <a href="#membership">Join NJHS</a>
+              </Button>
+              <Button
+                variant="outline"
+                className="text-green-600 border-green-600 hover:bg-green-50"
+                asChild
+              >
+                <a href="#activities">Our Activities</a>
+              </Button>
             </div>
           </div>
         </section>
