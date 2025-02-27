@@ -2,7 +2,6 @@ import "./App.css";
 import Home from "./pages/Home2";
 import Newsletter from "./pages/Newsletter";
 import Dashboard from "./pages/Dashboard";
-import Navbar from "./pages/Navbar";
 import ManageHours from "./pages/ManageHours";
 import Event from "./pages/Event";
 import Async from "./pages/Async";

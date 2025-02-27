@@ -13,11 +13,8 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { useState } from "react";
 
 export default function Home() {
-  const [activeSlide, setActiveSlide] = useState(0);
-
   return (
     <div className="flex flex-col h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">

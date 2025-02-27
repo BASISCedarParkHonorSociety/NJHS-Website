@@ -1,11 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Calendar, Users, BookOpen, Heart, Award } from "lucide-react";
 import {
   SignedIn,
@@ -14,7 +6,6 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
-import Navbar from "./Navbar";
 
 export default function Dashboard() {
   const { isLoaded, isSignedIn, user } = useUser();
