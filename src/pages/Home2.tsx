@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-14 items-center">
+        <div className="container mx-auto flex h-14 items-center">
           <div className="mr-4 hidden md:flex">
             <a className="mr-6 flex items-center space-x-2" href="/">
               <Award className="h-6 w-6 text-green-600" />
@@ -67,7 +67,11 @@ export default function Home() {
                 Member Dashboard
               </a>
               <SignedOut>
-                <SignInButton />
+                <SignInButton>
+                  <Button className="bg-green-600 text-white hover:bg-green-700">
+                    Sign In
+                  </Button>
+                </SignInButton>
               </SignedOut>
               <SignedIn>
                 <UserButton />
@@ -79,7 +83,7 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col w-full">
         <section className="relative flex-1 flex items-center justify-center w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-green-400">
-          <div className="flex flex-col items-center space-y-4 text-center">
+          <div className="flex flex-col mx-auto items-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
                 Welcome to the BASIS Cedar Park NJHS Chapter
@@ -111,7 +115,7 @@ export default function Home() {
           id="about"
           className="w-full py-12 md:py-24 lg:py-32 bg-gray-100"
         >
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
               About Our Chapter
             </h2>
@@ -126,7 +130,7 @@ export default function Home() {
         </section>
 
         <section id="pillars" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
               NJHS Pillars
             </h2>
@@ -176,7 +180,7 @@ export default function Home() {
           id="activities"
           className="w-full py-12 md:py-24 lg:py-32 bg-gray-100"
         >
-          <div className="container px-4 md:px-6">
+          <div className="mx-auto container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
               Our Activities
             </h2>
@@ -227,7 +231,7 @@ export default function Home() {
         </section>
 
         <section id="membership" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="mx-auto container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
               Membership Information
             </h2>
@@ -263,7 +267,7 @@ export default function Home() {
       </main>
 
       <footer id="contact" className="w-full py-6 bg-gray-100">
-        <div className="container px-4 md:px-6">
+        <div className="mx-auto container px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <Award className="h-6 w-6 text-green-600" />
