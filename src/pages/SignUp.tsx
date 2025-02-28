@@ -75,7 +75,7 @@ export default function SignUpPage() {
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <Award className="h-6 w-6 text-green-600" />
               <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
-                © 2024 BASIS Cedar Park NJHS. All rights reserved.
+                © 2025 BASIS Cedar Park NJHS. All rights reserved.
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
