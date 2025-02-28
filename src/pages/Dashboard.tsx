@@ -2,10 +2,10 @@ import { Calendar, Users, BookOpen, Heart, Award } from "lucide-react";
 import {
   SignedIn,
   SignedOut,
-  SignInButton,
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/button";
 
 export default function Dashboard() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -61,7 +61,11 @@ export default function Dashboard() {
                 Member Dashboard
               </a>
               <SignedOut>
-                <SignInButton />
+                <a href="/sign-in">
+                  <Button className="bg-green-600 text-white hover:bg-green-700">
+                    Sign In
+                  </Button>
+                </a>
               </SignedOut>
               <SignedIn>
                 <UserButton />

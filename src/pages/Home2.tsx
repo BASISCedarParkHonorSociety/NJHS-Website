@@ -64,11 +64,11 @@ export default function Home() {
                 Member Dashboard
               </a>
               <SignedOut>
-                <SignInButton>
+                <a href="/sign-in">
                   <Button className="bg-green-600 text-white hover:bg-green-700">
                     Sign In
                   </Button>
-                </SignInButton>
+                </a>
               </SignedOut>
               <SignedIn>
                 <UserButton />
