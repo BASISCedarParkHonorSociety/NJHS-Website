@@ -6,6 +6,9 @@ import ManageHours from "./pages/ManageHours";
 import Event from "./pages/Event";
 import Async from "./pages/Async";
 import Sync from "./pages/Sync";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import InitUser from "./pages/InitUser";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -20,6 +23,9 @@ function App() {
           <Route path="/dashboard/events" element={<Event />} />
           <Route path="/dashboard/async" element={<Async />} />
           <Route path="/dashboard/sync" element={<Sync />} />
+          <Route path="/sign-in/*" element={<SignIn />} />
+          <Route path="/sign-up/*" element={<SignUp />} />
+          <Route path="/init-user" element={<InitUser />} />
         </Routes>
       </Router>
     </>

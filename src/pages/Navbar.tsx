@@ -13,38 +13,39 @@ export default function Navbar() {
     return <h1>Error</h1>;
   }
   return (
-    <div className="flex flex-col min-h-screen w-full bg-white text-black">
+    <div className="flex flex-col min-h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-14 items-center">
-          <div className="mr-4 hidden md:flex">
-            <a className="mr-6 flex items-center space-x-2" href="/">
+        <div className="container mx-auto flex h-14 items-center">
+          <div className="flex-1">
+            <a className="flex items-center space-x-2" href="/">
               <Award className="h-6 w-6 text-green-600" />
-              <span className="hidden font-bold sm:inline-block text-green-600">
+              <span className="font-bold text-green-600">
                 BASIS Cedar Park NJHS
               </span>
             </a>
-            <nav className="flex items-center space-x-6 text-sm font-medium ml-0">
+          </div>
+          <nav className="flex-1 flex items-center justify-center space-x-6 text-sm font-medium">
               <a
                 className="transition-colors hover:text-black text-black"
-                href="#about"
+                href="/#about"
               >
                 About
               </a>
               <a
                 className="transition-colors hover:text-black text-black"
-                href="#pillars"
+                href="/#pillars"
               >
                 Pillars
               </a>
               <a
                 className="transition-colors hover:text-black text-black"
-                href="#activities"
+                href="/#activities"
               >
                 Activities
               </a>
               <a
                 className="transition-colors hover:text-black text-black"
-                href="#membership"
+                href="/#membership"
               >
                 Membership
               </a>
@@ -60,14 +61,15 @@ export default function Navbar() {
               >
                 Member Dashboard
               </a>
+            </nav>
+            <div className="flex-1 flex justify-end">
               <SignedOut>
                 <SignInButton />
               </SignedOut>
               <SignedIn>
                 <UserButton />
               </SignedIn>
-            </nav>
-          </div>
+            </div>
         </div>
       </header>
     </div>

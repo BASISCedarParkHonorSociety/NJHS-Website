@@ -7,8 +7,9 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/button";
 
-const Event: React.FC = () => {
+const Sync: React.FC = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   if (!isLoaded || !isSignedIn) {
     return <h1>Please sign in to access this page.</h1>;
@@ -16,58 +17,64 @@ const Event: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-14 items-center">
-          <div className="mr-4 hidden md:flex">
-            <a className="mr-6 flex items-center space-x-2" href="/">
+        <div className="container mx-auto flex h-14 items-center">
+          <div className="flex-1">
+            <a className="flex items-center space-x-2" href="/">
               <Award className="h-6 w-6 text-green-600" />
               <span className="hidden font-bold sm:inline-block text-green-600">
                 BASIS Cedar Park NJHS
               </span>
             </a>
-            <nav className="flex items-center space-x-6 text-sm font-medium ml-0">
-              <a
-                className="transition-colors hover:text-black text-black"
-                href="#about"
-              >
-                About
+          </div>
+          <nav className="flex-1 flex items-center justify-center gap-5 text-sm font-medium">
+            <a
+              className="transition-colors hover:text-black text-black"
+              href="/#about"
+            >
+              About
+            </a>
+            <a
+              className="transition-colors hover:text-black text-black"
+              href="/#pillars"
+            >
+              Pillars
+            </a>
+            <a
+              className="transition-colors hover:text-black text-black"
+              href="/#activities"
+            >
+              Activities
+            </a>
+            <a
+              className="transition-colors hover:text-black text-black"
+              href="/#membership"
+            >
+              Membership
+            </a>
+            <a
+              className="transition-colors hover:text-black text-black"
+              href="/newsletter"
+            >
+              Newsletter
+            </a>
+            <a
+              className="transition-colors hover:text-black text-black whitespace-nowrap"
+              href="/dashboard"
+            >
+              Member Dashboard
+            </a>
+          </nav>
+          <div className="flex-1 flex justify-end">
+            <SignedOut>
+              <a href="/sign-in">
+                <Button className="bg-green-600 text-white hover:bg-green-700">
+                  Sign In
+                </Button>
               </a>
-              <a
-                className="transition-colors hover:text-black text-black"
-                href="#pillars"
-              >
-                Pillars
-              </a>
-              <a
-                className="transition-colors hover:text-black text-black"
-                href="#activities"
-              >
-                Activities
-              </a>
-              <a
-                className="transition-colors hover:text-black text-black"
-                href="#membership"
-              >
-                Membership
-              </a>
-              <a
-                className="transition-colors hover:text-black text-black"
-                href="/newsletter"
-              >
-                Newsletter
-              </a>
-              <a
-                className="transition-colors hover:text-black text-black"
-                href="/dashboard"
-              >
-                Member Dashboard
-              </a>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </nav>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </header>
@@ -89,8 +96,8 @@ const Event: React.FC = () => {
                   <Calendar className="mr-3 h-5 w-5 text-gray-400" />
                   Overview
                 </a>
-                {(user.unsafeMetadata.role as string) == "board" ||
-                (user.unsafeMetadata.role as string) == "lead" ? (
+                {(user?.publicMetadata?.role as string) === "admin" ||
+                (user?.publicMetadata?.role as string) === "lead" ? (
                   <>
                     <a
                       href="/dashboard/manage_hours"
@@ -148,7 +155,7 @@ const Event: React.FC = () => {
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <Award className="h-6 w-6 text-green-600" />
               <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
-                © 2024 BASIS Cedar Park NJHS. All rights reserved.
+                © 2025 BASIS Cedar Park NJHS. All rights reserved.
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
@@ -169,4 +176,4 @@ const Event: React.FC = () => {
   );
 };
 
-export default Event;
+export default Sync;
