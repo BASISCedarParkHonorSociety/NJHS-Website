@@ -294,7 +294,7 @@ export default function ManageHours() {
       </header>
 
       <SignedIn>
-        <div className="w-full py-6 flex flex-1">
+        <div className="flex flex-1">
           <aside className="w-64 bg-gray-50 border-r border-gray-200 min-h-screen">
             <div className="p-4">
               <h2 className="text-lg font-semibold text-green-600 mb-4">
