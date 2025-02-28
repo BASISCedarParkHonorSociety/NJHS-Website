@@ -178,6 +178,50 @@ export default function ManageHours() {
     }
   };
 
+  const handleEditRole = async (userID: string) => {
+    const currentUser = users.find(u => u.id === userID);
+    const currentRole = currentUser?.publicMetadata?.role || "user";
+    
+    const newRole = prompt("Enter the role (user/lead/admin):", currentRole);
+    
+    if (!newRole || !["user", "lead", "admin"].includes(newRole) || newRole === currentRole) {
+      if (newRole && !["user", "lead", "admin"].includes(newRole)) {
+        alert("Invalid role. Please enter 'user', 'lead', or 'admin'.");
+      }
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "/api/v1/users/initUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            userID: userID, 
+            role: newRole,
+            committee: currentUser?.publicMetadata?.committee || "none",
+            hours: currentUser?.publicMetadata?.hours || 0
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Role updated successfully");
+        fetchUsers();
+      } else {
+        alert(`Error updating role: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error updating role:", error);
+      alert("Error updating role");
+    }
+  };
+
   const handleEditCommittee = async (userID: string) => {
     const currentUser = users.find(u => u.id === userID);
     const currentCommittee = currentUser?.publicMetadata?.committee || "none";
@@ -481,7 +525,7 @@ export default function ManageHours() {
               ) : filteredUsers.length > 0 ? (
                 filteredUsers.map((registeredUser: any, index: number) => (
                   <li key={index} className="mb-4 p-4 border rounded-lg bg-white flex justify-between items-center">
-                    <div>
+                    <div className="text-left">
                       <div className="font-semibold">
                         {registeredUser.firstName} {registeredUser.lastName}
                       </div>
@@ -501,6 +545,12 @@ export default function ManageHours() {
                           onClick={() => handleAddHours(registeredUser.id)}
                         >
                           Set Hours
+                        </Button>
+                        <Button
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                          onClick={() => handleEditRole(registeredUser.id)}
+                        >
+                          Edit Role
                         </Button>
                         <Button
                           className="bg-purple-500 hover:bg-purple-600 text-white"
