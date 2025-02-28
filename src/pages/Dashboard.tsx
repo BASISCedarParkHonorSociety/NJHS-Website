@@ -6,11 +6,16 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
+import { Navigate } from "react-router-dom";
 
 export default function Dashboard() {
   const { isLoaded, isSignedIn, user } = useUser();
-  if (!isLoaded || !isSignedIn) {
-    return <h1>Please sign in to access this page.</h1>;
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isSignedIn) {
+    return <Navigate to="/sign-in" replace />;
   }
   return (
     <div className="flex flex-col min-h-screen w-screen bg-white text-black">
@@ -94,8 +99,8 @@ export default function Dashboard() {
                   <Calendar className="mr-3 h-5 w-5 text-green-500" />
                   Overview
                 </a>
-                {(user?.unsafeMetadata?.role as string) === "board" ||
-                (user?.unsafeMetadata?.role as string) === "lead" ? (
+                {(user?.publicMetadata?.role as string) === "admin" ||
+                (user?.publicMetadata?.role as string) === "lead" ? (
                   <>
                     <a
                       href="/dashboard/manage_hours"
@@ -141,11 +146,11 @@ export default function Dashboard() {
 
             <h1 className="text-2xl font-bold mb-4">Hours</h1>
             <h2 className="text-xl font-semibold mb-2">
-              You have {user?.unsafeMetadata?.hours as string} hours this year.
+              You have {user?.publicMetadata?.hours as string} hours this year.
             </h2>
             <h2 className="text-xl font-semibold mb-2">
-              {(user?.unsafeMetadata?.role as string) === "board" ||
-              (user?.unsafeMetadata?.role as string) === "lead" ? (
+              {(user?.publicMetadata?.role as string) === "admin" ||
+              (user?.publicMetadata?.role as string) === "lead" ? (
                 <a href="/dashboard/manage_hours">Manage Member Hours</a>
               ) : (
                 ""

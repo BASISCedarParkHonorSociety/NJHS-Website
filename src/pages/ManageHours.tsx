@@ -8,6 +8,7 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
+import { Navigate } from "react-router-dom";
 
 export default function ManageHours() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -17,10 +18,10 @@ export default function ManageHours() {
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "https://njhs-api.robby.blue/api/v1/users/listUsers"
+        "/api/v1/users/listUsers"
       );
       const data = await response.json();
-      setUsers(data.data); // Ensure this matches the response structure
+      setUsers(data.data); // Access the data array from the response
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -33,7 +34,7 @@ export default function ManageHours() {
   }, []);
 
   // Get the current user's role
-  const currentUserRole = user?.unsafeMetadata?.role || "user";
+  const currentUserRole = user?.publicMetadata?.role || "user";
 
   const handleAddHours = async (userID: string) => {
     const amountToAddString = prompt("Enter the amount of hours to set:");
@@ -46,7 +47,7 @@ export default function ManageHours() {
 
     try {
       const response = await fetch(
-        "https://njhs-api.robby.blue/api/v1/users/editUserHours",
+        "/api/v1/users/editUserHours",
         {
           method: "POST",
           headers: {
@@ -71,8 +72,12 @@ export default function ManageHours() {
     }
   };
 
-  if (!isLoaded || !isSignedIn) {
-    return <h1>Please sign in to access this page.</h1>;
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isSignedIn) {
+    return <Navigate to="/sign-in" replace />;
   }
 
   return (
@@ -155,8 +160,8 @@ export default function ManageHours() {
                   <Calendar className="mr-3 h-5 w-5 text-gray-400" />
                   Overview
                 </a>
-                {(user?.unsafeMetadata?.role as string) === "board" ||
-                (user?.unsafeMetadata?.role as string) === "lead" ? (
+                {(user?.publicMetadata?.role as string) === "admin" ||
+                (user?.publicMetadata?.role as string) === "lead" ? (
                   <>
                     <a
                       href="/dashboard/manage_hours"
@@ -202,8 +207,8 @@ export default function ManageHours() {
                   <li key={index} className="mb-2">
                     {registeredUser.firstName} {registeredUser.lastName} -{" "}
                     {registeredUser.emailAddresses[0].emailAddress} - Role:{" "}
-                    {registeredUser.unsafeMetadata.role || "N/A"} - Hours:{" "}
-                    {registeredUser.unsafeMetadata.hours || 0}
+                    {registeredUser.publicMetadata.role || "N/A"} - Hours:{" "}
+                    {registeredUser.publicMetadata.hours || 0}
                     {(currentUserRole === "admin" ||
                       currentUserRole === "lead") && (
                       <button

@@ -96,8 +96,8 @@ const Event: React.FC = () => {
                   <Calendar className="mr-3 h-5 w-5 text-gray-400" />
                   Overview
                 </a>
-                {(user?.unsafeMetadata?.role as string) === "board" ||
-                (user?.unsafeMetadata?.role as string) === "lead" ? (
+                {(user?.publicMetadata?.role as string) === "admin" ||
+                (user?.publicMetadata?.role as string) === "lead" ? (
                   <>
                     <a
                       href="/dashboard/manage_hours"
