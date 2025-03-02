@@ -107,10 +107,10 @@ export default function InitUser() {
               <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
                 Contact:{" "}
                 <a
-                  href="mailto:contact@basisnjhs.org"
+                  href="mailto:contact@basiscpk.com"
                   className="underline hover:text-green-600"
                 >
-                  contact@basisnjhs.org
+                  contact@basiscpk.com
                 </a>
               </p>
             </div>
