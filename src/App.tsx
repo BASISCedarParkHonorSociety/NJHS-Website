@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./pages/Home2";
 import Newsletter from "./pages/Newsletter";
 import Dashboard from "./pages/Dashboard";
-import ManageHours from "./pages/ManageHours";
+import ManageUsers from "./pages/ManageUsers";
 import Event from "./pages/Event";
 import Async from "./pages/Async";
 import Sync from "./pages/Sync";
@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/manage_hours" element={<ManageHours />} />
+          <Route path="/dashboard/manage_users" element={<ManageUsers />} />
           <Route path="/dashboard/events" element={<Event />} />
           <Route path="/dashboard/async" element={<Async />} />
           <Route path="/dashboard/sync" element={<Sync />} />

@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Navigate } from "react-router-dom";
 
-export default function ManageHours() {
+export default function ManageUsers() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [users, setUsers] = useState<any[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
@@ -356,7 +356,7 @@ export default function ManageHours() {
                 (user?.publicMetadata?.role as string) === "lead" ? (
                   <>
                     <a
-                      href="/dashboard/manage_hours"
+                      href="/dashboard/manage_users"
                       className="flex items-center px-3 py-2 text-sm font-medium rounded-md bg-gray-100 text-green-600"
                     >
                       <BookOpen className="mr-3 h-5 w-5 text-green-500" />
@@ -441,7 +441,7 @@ export default function ManageHours() {
                       type="text"
                       value={newUser.firstName}
                       onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
-                      className="border rounded p-2"
+                      className="border rounded p-2 bg-white text-black"
                       required
                     />
                   </div>
@@ -451,7 +451,7 @@ export default function ManageHours() {
                       type="text"
                       value={newUser.lastName}
                       onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
-                      className="border rounded p-2"
+                      className="border rounded p-2 bg-white text-black"
                       required
                     />
                   </div>
@@ -461,7 +461,7 @@ export default function ManageHours() {
                       type="email"
                       value={newUser.email}
                       onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                      className="border rounded p-2"
+                      className="border rounded p-2 bg-white text-black"
                       required
                     />
                   </div>
@@ -470,7 +470,7 @@ export default function ManageHours() {
                     <select
                       value={newUser.role}
                       onChange={(e) => setNewUser({...newUser, role: e.target.value})}
-                      className="border rounded p-2"
+                      className="border rounded p-2 bg-white text-black"
                     >
                       <option value="user">User</option>
                       <option value="lead">Lead</option>
@@ -483,7 +483,7 @@ export default function ManageHours() {
                       type="text"
                       value={newUser.committee}
                       onChange={(e) => setNewUser({...newUser, committee: e.target.value})}
-                      className="border rounded p-2"
+                      className="border rounded p-2 bg-white text-black"
                       placeholder="Leave blank for 'none'"
                     />
                   </div>
@@ -493,7 +493,7 @@ export default function ManageHours() {
                       type="password"
                       value={newUser.password}
                       onChange={(e) => setNewUser({...newUser, password: e.target.value})}
-                      className="border rounded p-2"
+                      className="border rounded p-2 bg-white text-black"
                       required
                       minLength={8}
                     />
