@@ -16,7 +16,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="flex flex-col h-screen w-screen bg-white text-black">
+    <div className="flex flex-col min-h-screen w-screen bg-white text-black">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container mx-auto flex h-14 items-center">
           <div className="flex-1">
