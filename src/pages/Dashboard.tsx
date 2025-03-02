@@ -103,11 +103,11 @@ export default function Dashboard() {
                 (user?.publicMetadata?.role as string) === "lead" ? (
                   <>
                     <a
-                      href="/dashboard/manage_hours"
+                      href="/dashboard/manage_users"
                       className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-green-600"
                     >
                       <BookOpen className="mr-3 h-5 w-5 text-gray-400" />
-                      Manage Hours
+                      Manage Users
                     </a>
                   </>
                 ) : null}
@@ -151,7 +151,7 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold mb-2">
               {(user?.publicMetadata?.role as string) === "admin" ||
               (user?.publicMetadata?.role as string) === "lead" ? (
-                <a href="/dashboard/manage_hours">Manage Member Hours</a>
+                <a href="/dashboard/manage_users">Manage Members</a>
               ) : (
                 ""
               )}
