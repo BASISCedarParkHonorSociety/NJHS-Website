@@ -1,12 +1,5 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { ensureNewsletterFile } from './utils.js';
 import { clerkClient } from '../clerk.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const newsletterPath = path.join(__dirname, '../../../../data/newsletter.json');
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -27,9 +20,7 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'Unauthorized: Only admins can view other users\' posts' });
     }
 
-    const data = await fs.readFile(newsletterPath, 'utf8');
-    const newsletter = JSON.parse(data);
-
+    const newsletter = await ensureNewsletterFile();
     const userPosts = newsletter.posts.filter(post => post.authorId === userId);
 
     res.status(200).json({ posts: userPosts });

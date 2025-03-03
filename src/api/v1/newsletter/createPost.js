@@ -1,12 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { ensureNewsletterFile, newsletterPath } from './utils.js';
 import { clerkClient } from '../clerk.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const newsletterPath = path.join(__dirname, '../../../../data/newsletter.json');
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -29,8 +24,7 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'Unauthorized: Only admin and lead roles can create newsletter posts' });
     }
 
-    const data = await fs.readFile(newsletterPath, 'utf8');
-    const newsletter = JSON.parse(data);
+    const newsletter = await ensureNewsletterFile();
 
     const post = {
       id: Date.now().toString(),
@@ -53,11 +47,9 @@ export default async function handler(req, res) {
           type: file.type,
           authorId: userId,
           postId: post.id,
-          uploadDate: new Date().toISOString()
+          uploadDate: new Date().toISOString(),
+          data: fileData
         };
-
-        const buffer = Buffer.from(fileData, 'base64');
-        await fs.mkdir(path.dirname(newsletterPath), { recursive: true });
         
         post.files.push({
           id: fileId,

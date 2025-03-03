@@ -1,12 +1,6 @@
 import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { ensureNewsletterFile, newsletterPath } from './utils.js';
 import { clerkClient } from '../clerk.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const newsletterPath = path.join(__dirname, '../../../../data/newsletter.json');
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -20,7 +14,8 @@ export default async function handler(req, res) {
       title, 
       content, 
       tags = [],
-      files = []
+      files = [],
+      existingFiles = []
     } = req.body;
 
     const user = await clerkClient.users.getUser(userId);
@@ -30,8 +25,7 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'Unauthorized: Only admin and lead roles can edit newsletter posts' });
     }
 
-    const data = await fs.readFile(newsletterPath, 'utf8');
-    const newsletter = JSON.parse(data);
+    const newsletter = await ensureNewsletterFile();
 
     const postIndex = newsletter.posts.findIndex(post => post.id === postId);
     
@@ -50,6 +44,20 @@ export default async function handler(req, res) {
     post.tags = tags;
     post.lastUpdated = new Date().toISOString();
 
+    if (post.files) {
+      const existingFileIds = existingFiles.map(f => f.id);
+      
+      post.files = post.files.filter(file => existingFileIds.includes(file.id));
+      
+      Object.keys(newsletter.files).forEach(fileId => {
+        if (newsletter.files[fileId].postId === post.id && !existingFileIds.includes(fileId)) {
+          delete newsletter.files[fileId];
+        }
+      });
+    } else {
+      post.files = [];
+    }
+
     if (files && files.length > 0) {
       for (const file of files) {
         const fileId = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
@@ -60,11 +68,9 @@ export default async function handler(req, res) {
           type: file.type,
           authorId: userId,
           postId: post.id,
-          uploadDate: new Date().toISOString()
+          uploadDate: new Date().toISOString(),
+          data: fileData
         };
-
-        const buffer = Buffer.from(fileData, 'base64');
-        await fs.mkdir(path.dirname(newsletterPath), { recursive: true });
         
         post.files.push({
           id: fileId,

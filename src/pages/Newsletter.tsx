@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Award, PlusCircle, Pencil, Trash2, FileText, ChevronDown, X, Search } from "lucide-react";
 import {
   SignedIn,
@@ -42,6 +42,7 @@ interface User {
   publicMetadata?: {
     role?: string;
     hours?: string;
+    committee?: string;
   };
 }
 
@@ -50,6 +51,7 @@ interface PostFormData {
   content: string;
   tags: string[];
   files: { name: string; content: string; type: string }[];
+  existingFiles?: PostFile[];
 }
 
 const formatDate = (dateString: string): string => {
@@ -121,8 +123,8 @@ const PostView = ({ post, onClose }: { post: Post; onClose: () => void }) => {
     <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">{post.title}</h2>
-        <Button variant="ghost" size="sm" onClick={onClose}>
-          <X className="h-4 w-4" />
+        <Button variant="outline" size="sm" onClick={onClose}>
+          <X className="h-4 w-4 text-red-500" />
         </Button>
       </div>
       
@@ -183,6 +185,7 @@ const PostEditor = ({
   const [content, setContent] = useState(post?.content || '');
   const [tags, setTags] = useState(post?.tags?.join(', ') || '');
   const [files, setFiles] = useState<File[]>([]);
+  const [existingFiles, setExistingFiles] = useState<PostFile[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useUser();
   
@@ -191,10 +194,12 @@ const PostEditor = ({
       setTitle(post.title || '');
       setContent(post.content || '');
       setTags(post.tags?.join(', ') || '');
+      setExistingFiles(post.files || []);
     } else {
       setTitle('');
       setContent('');
       setTags('');
+      setExistingFiles([]);
     }
     setFiles([]);
   }, [post, isOpen]);
@@ -202,6 +207,10 @@ const PostEditor = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
     setFiles(selectedFiles);
+  };
+  
+  const handleRemoveExistingFile = (fileId: string) => {
+    setExistingFiles(existingFiles.filter(file => file.id !== fileId));
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -233,7 +242,8 @@ const PostEditor = ({
       title,
       content,
       tags: tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag),
-      files: fileData
+      files: fileData,
+      existingFiles: existingFiles
     };
     
     await onSave(postData);
@@ -245,15 +255,15 @@ const PostEditor = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{post ? 'Edit Post' : 'Create New Post'}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-black">{post ? 'Edit Post' : 'Create New Post'}</DialogTitle>
+          <DialogDescription className="text-gray-600">
             {post ? 'Edit your newsletter post below.' : 'Create a new newsletter post.'}
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title" className="text-black">Title</Label>
             <Input
               id="title"
               placeholder="Post title"
@@ -264,7 +274,7 @@ const PostEditor = ({
           </div>
           
           <div>
-            <Label htmlFor="content">Content (Markdown supported)</Label>
+            <Label htmlFor="content" className="text-black">Content (Markdown supported)</Label>
             <Textarea
               id="content"
               placeholder="Write your post content..."
@@ -276,7 +286,7 @@ const PostEditor = ({
           </div>
           
           <div>
-            <Label htmlFor="tags">Tags (comma-separated)</Label>
+            <Label htmlFor="tags" className="text-black">Tags (comma-separated)</Label>
             <Input
               id="tags"
               placeholder="event, announcement, news"
@@ -285,8 +295,35 @@ const PostEditor = ({
             />
           </div>
           
+          {existingFiles.length > 0 && (
+            <div>
+              <Label className="text-black">Existing Files</Label>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {existingFiles.map((file) => (
+                  <div 
+                    key={file.id}
+                    className="flex items-center bg-gray-100 rounded-full px-3 py-1"
+                  >
+                    <FileText className="h-4 w-4 mr-2 text-gray-700" />
+                    <span className="mr-2 text-gray-700">{file.name}</span>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-5 w-5 p-0 rounded-full border border-gray-300"
+                      onClick={() => handleRemoveExistingFile(file.id)}
+                    >
+                      <X className="h-3 w-3 text-gray-700" />
+                      <span className="sr-only">Remove {file.name}</span>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
           <div>
-            <Label htmlFor="files">Attach Files</Label>
+            <Label htmlFor="files" className="text-black">Attach Files</Label>
             <Input
               id="files"
               type="file"
@@ -341,8 +378,8 @@ const DeleteConfirmation = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Post</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-black">Delete Post</DialogTitle>
+          <DialogDescription className="text-gray-600">
             Are you sure you want to delete "{post?.title}"? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
@@ -361,51 +398,121 @@ const DeleteConfirmation = ({
 
 const UserSearch = ({ 
   users, 
-  onSelectUser 
+  onSelectUser,
+  onClearSearch
 }: { 
   users: User[]; 
   onSelectUser: (userId: string) => void;
+  onClearSearch: () => void;
 }) => {
   const [search, setSearch] = useState('');
-  const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const searchRef = React.useRef<HTMLDivElement>(null);
+  
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchRef]);
+  
+  useEffect(() => {
+    console.log("UserSearch component received users:", users);
+    console.log("User count:", users?.length || 0);
+  }, [users]);
   
   useEffect(() => {
     if (!search.trim()) {
-      setFilteredUsers(users);
-      return;
+      setFilteredUsers(users?.slice(0, 100) || []);
+    } else {
+      const filtered = users?.filter((user: User) => 
+        `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase().includes(search.toLowerCase()) ||
+        (user.publicMetadata?.role && user.publicMetadata.role.toLowerCase().includes(search.toLowerCase())) ||
+        (user.publicMetadata?.committee && user.publicMetadata.committee.toLowerCase().includes(search.toLowerCase()))
+      ).slice(0, 100) || [];
+      setFilteredUsers(filtered);
     }
-    
-    const filtered = users.filter((user: User) => 
-      `${user.firstName} ${user.lastName}`.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredUsers(filtered);
   }, [search, users]);
   
+  const handleSelectUser = (userId: string, userName: string) => {
+    onSelectUser(userId);
+    setSearch(userName);
+    setIsOpen(false);
+  };
+  
   return (
-    <div className="mb-4">
-      <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-          <Input
-            placeholder="Search users..."
-            value={search}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-            className="pl-8"
-          />
-        </div>
-        <Select onValueChange={onSelectUser}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Select user" />
-          </SelectTrigger>
-          <SelectContent>
-            {filteredUsers.map((user: User) => (
-              <SelectItem key={user.id} value={user.id}>
-                {user.firstName} {user.lastName}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className="mb-4 relative" ref={searchRef}>
+      <div className="relative">
+        <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+        <Input
+          placeholder="Search users by name, role, or committee..."
+          value={search}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setSearch(e.target.value);
+            setIsOpen(true);
+          }}
+          onFocus={() => setIsOpen(true)}
+          className="pl-8 w-full"
+        />
+        {search && (
+          <button
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-200"
+            onClick={() => {
+              setSearch('');
+              setIsOpen(true);
+              onClearSearch();
+            }}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
+      
+      {isOpen && (
+        <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+          {filteredUsers.length > 0 ? (
+            <ul className="py-1">
+              {filteredUsers.map((user: User) => (
+                <li 
+                  key={user.id}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
+                  onClick={() => handleSelectUser(user.id, `${user.firstName} ${user.lastName}`)}
+                >
+                  <div>
+                    <span className="font-medium">{user.firstName} {user.lastName}</span>
+                    {user.publicMetadata?.role && (
+                      <span className="ml-2 text-xs bg-gray-200 text-gray-700 px-1 py-0.5 rounded">
+                        {user.publicMetadata.role}
+                      </span>
+                    )}
+                  </div>
+                  {user.publicMetadata?.committee && (
+                    <span className="text-sm text-gray-500">
+                      {user.publicMetadata.committee}
+                    </span>
+                  )}
+                </li>
+              ))}
+              {users && users.length > filteredUsers.length && (
+                <li className="px-4 py-2 text-sm text-gray-500 italic">
+                  Showing first 100 results. Refine your search to see more specific results.
+                </li>
+              )}
+            </ul>
+          ) : (
+            <div className="px-4 py-2 text-sm text-gray-500">
+              No users found
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -443,26 +550,43 @@ const NewsletterManagement = ({ currentUser }: { currentUser?: User }) => {
           console.error('Failed to fetch posts');
         }
         
-        // If admin, fetch all users
-        if (isAdmin && !allUsers.length) {
+      if (isAdmin) {
+        try {
           const usersResponse = await fetch('/api/v1/users/listUsers');
           
           if (usersResponse.ok) {
             const usersData = await usersResponse.json();
-            // Filter to only include admin and lead users
-            // API returns array directly
-            const users = usersData || [];
-            console.log("Users data:", users);
-            const filteredUsers = users.filter((user: User) => {
-              // TODO: Fix
+            console.log("Raw users data format:", Array.isArray(usersData) ? "array" : typeof usersData);
+            console.log("Users data sample:", usersData && usersData.length > 0 ? usersData[0] : "No users");
+
+            const usersList = Array.isArray(usersData) ? usersData : 
+                              (usersData && usersData.data && Array.isArray(usersData.data)) ? usersData.data : [];
+            
+            const transformedUsers = usersList.map((user: any) => ({
+              id: user.id,
+              firstName: user.firstName || user.first_name || "",
+              lastName: user.lastName || user.last_name || "",
+              publicMetadata: user.publicMetadata || user.public_metadata || {}
+            }));
+            
+            console.log("Transformed users:", transformedUsers);
+            
+            // Filter if needed (currently including all users for debugging)
+            const filteredUsers = transformedUsers.filter((user: User) => {
               // Include all users for now to debug
               return true;
               // Uncomment below to filter by role again once debugging is complete
               // return user.publicMetadata?.role === 'admin' || user.publicMetadata?.role === 'lead';
             });
+            
             setAllUsers(filteredUsers);
+          } else {
+            console.error("Failed to fetch users:", await usersResponse.text());
           }
+        } catch (error) {
+          console.error("Error fetching users:", error);
         }
+      }
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -600,7 +724,11 @@ const NewsletterManagement = ({ currentUser }: { currentUser?: User }) => {
             <CardDescription>As an admin, you can view and manage posts from all users.</CardDescription>
           </CardHeader>
           <CardContent>
-            <UserSearch users={allUsers} onSelectUser={handleSelectUser} />
+            <UserSearch 
+              users={allUsers} 
+              onSelectUser={handleSelectUser}
+              onClearSearch={() => setSelectedUserId(currentUser?.id)}
+            />
           </CardContent>
         </Card>
       )}
@@ -812,27 +940,20 @@ export default function Newsletter() {
         
         {!canManageNewsletter && (
           <div className="w-full">
-            {selectedPost ? (
-              <PostView post={selectedPost} onClose={handleClosePost} />
-            ) : (
-              <div className="w-full">
-                {isLoading ? (
-                  <p className="text-center">Loading posts...</p>
-                ) : posts.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {posts.map((post: Post) => (
-                      <PostPreview key={post.id} post={post} onView={handleViewPost} />
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-center">No newsletter posts available yet.</p>
-                )}
+            {isLoading ? (
+              <p className="text-center">Loading posts...</p>
+            ) : posts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {posts.map((post: Post) => (
+                  <PostPreview key={post.id} post={post} onView={handleViewPost} />
+                ))}
               </div>
+            ) : (
+              <p className="text-center">No newsletter posts available yet.</p>
             )}
           </div>
         )}
       </main>
-
       <footer id="contact" className="w-full py-6 bg-gray-100 mt-auto">
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">

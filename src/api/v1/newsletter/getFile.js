@@ -1,11 +1,4 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const newsletterPath = path.join(__dirname, '../../../../data/newsletter.json');
+import { ensureNewsletterFile } from './utils.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'POST') {
@@ -19,8 +12,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'File ID is required' });
     }
 
-    const data = await fs.readFile(newsletterPath, 'utf8');
-    const newsletter = JSON.parse(data);
+    const newsletter = await ensureNewsletterFile();
 
     const fileMetadata = newsletter.files[fileId];
     
@@ -31,10 +23,10 @@ export default async function handler(req, res) {
     const file = newsletter.files[fileId];
     
     if (req.method === 'GET') {
-      res.setHeader('Content-Type', file.type || 'application/octet-stream');
-      res.setHeader('Content-Disposition', `inline; filename="${file.name}"`);
-      
       if (file.data) {
+        res.setHeader('Content-Type', file.type || 'application/octet-stream');
+        res.setHeader('Content-Disposition', `inline; filename="${file.name}"`);
+        
         const buffer = Buffer.from(file.data, 'base64');
         res.send(buffer);
       } else {
