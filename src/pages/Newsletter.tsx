@@ -835,10 +835,25 @@ export default function Newsletter() {
   
   const handleTabChange = (value: string) => {
     setActiveTab(value);
+    
     if (value === "all") {
       fetchPosts();
     }
   };
+  
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && activeTab === "all") {
+        fetchPosts();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [activeTab]);
   
   const handleViewPost = (post: Post) => {
     setSelectedPost(post);

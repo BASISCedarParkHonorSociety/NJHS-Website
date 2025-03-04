@@ -2,21 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.markdown-content ul {
-  list-style-type: disc !important;
-  padding-left: 1.5em !important;
-  margin: 1em 0 !important;
-}
-
-.markdown-content ol {
-  list-style-type: decimal !important;
-  padding-left: 1.5em !important;
-  margin: 1em 0 !important;
-}
-
-.markdown-content li {
-  margin: 0.5em 0 !important;
-  display: list-item !important;
+.markdown-content {
+  text-align: left !important;
+  width: 100% !important;
+  max-width: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  line-height: 1.6 !important;
+  word-wrap: break-word !important;
+  color: #24292e !important;
 }
 
 .markdown-content h1, 
@@ -25,25 +18,191 @@
 .markdown-content h4, 
 .markdown-content h5, 
 .markdown-content h6 {
-  margin-top: 1.5em !important;
-  margin-bottom: 0.5em !important;
-  font-weight: bold !important;
+  margin-top: 24px !important;
+  margin-bottom: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  text-align: left !important;
+  border-bottom: none !important;
 }
 
 .markdown-content h1 {
-  font-size: 1.8em !important;
+  font-size: 2em !important;
+  padding-bottom: 0.3em !important;
+  border-bottom: 1px solid #eaecef !important;
 }
 
 .markdown-content h2 {
   font-size: 1.5em !important;
+  padding-bottom: 0.3em !important;
+  border-bottom: 1px solid #eaecef !important;
 }
 
 .markdown-content h3 {
-  font-size: 1.3em !important;
+  font-size: 1.25em !important;
+}
+
+.markdown-content h4 {
+  font-size: 1em !important;
 }
 
 .markdown-content p {
-  margin: 1em 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  text-align: left !important;
+}
+
+.markdown-content blockquote {
+  padding: 0 1em !important;
+  color: #6a737d !important;
+  border-left: 0.25em solid #dfe2e5 !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.markdown-content blockquote > :first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-content blockquote > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 2em !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  text-align: left !important;
+}
+
+.markdown-content ul {
+  list-style-type: disc !important;
+}
+
+.markdown-content ol {
+  list-style-type: decimal !important;
+}
+
+.markdown-content ul ul,
+.markdown-content ul ol,
+.markdown-content ol ol,
+.markdown-content ol ul {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.markdown-content li {
+  word-wrap: break-all !important;
+  margin: 0.25em 0 !important;
+  display: list-item !important;
+  text-align: left !important;
+}
+
+.markdown-content li > p {
+  margin-top: 16px !important;
+}
+
+.markdown-content li + li {
+  margin-top: 0.25em !important;
+}
+
+.markdown-content code {
+  padding: 0.2em 0.4em !important;
+  margin: 0 !important;
+  font-size: 85% !important;
+  background-color: rgba(27, 31, 35, 0.05) !important;
+  border-radius: 3px !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+}
+
+.markdown-content pre {
+  word-wrap: normal !important;
+  padding: 16px !important;
+  overflow: auto !important;
+  font-size: 85% !important;
+  line-height: 1.45 !important;
+  background-color: #f6f8fa !important;
+  border-radius: 3px !important;
+  margin-bottom: 16px !important;
+}
+
+.markdown-content pre code {
+  display: inline !important;
+  max-width: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  line-height: inherit !important;
+  word-wrap: normal !important;
+  background-color: transparent !important;
+  border: 0 !important;
+}
+
+.markdown-content table {
+  display: block !important;
+  width: 100% !important;
+  overflow: auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  border-spacing: 0 !important;
+  border-collapse: collapse !important;
+}
+
+.markdown-content table th {
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+
+.markdown-content table th,
+.markdown-content table td {
+  padding: 6px 13px !important;
+  border: 1px solid #dfe2e5 !important;
+}
+
+.markdown-content table tr {
+  background-color: #fff !important;
+  border-top: 1px solid #c6cbd1 !important;
+}
+
+.markdown-content table tr:nth-child(2n) {
+  background-color: #f6f8fa !important;
+}
+
+.markdown-content hr {
+  height: 0.25em !important;
+  padding: 0 !important;
+  margin: 24px 0 !important;
+  background-color: #e1e4e8 !important;
+  border: 0 !important;
+}
+
+.markdown-content a {
+  color: #0366d6 !important;
+  text-decoration: none !important;
+}
+
+.markdown-content a:hover {
+  text-decoration: underline !important;
+}
+
+.markdown-content img {
+  max-width: 100% !important;
+  box-sizing: content-box !important;
+  background-color: #fff !important;
+}
+
+.markdown-content ul.contains-task-list {
+  padding-left: 0 !important;
+}
+
+.markdown-content .task-list-item {
+  list-style-type: none !important;
+  padding-left: 1.5em !important;
+}
+
+.markdown-content .task-list-item input {
+  margin: 0 0.2em 0.25em -1.4em !important;
+  vertical-align: middle !important;
 }
 
 :root {
