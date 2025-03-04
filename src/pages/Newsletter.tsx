@@ -68,6 +68,11 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
 
   useEffect(() => {
     import('marked').then(({ marked }) => {
+      marked.setOptions({
+        breaks: true,
+        gfm: true
+      });
+      
       const rendered = marked(content || '');
       if (typeof rendered === 'string') {
         setHtml(rendered);
@@ -79,7 +84,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
 
   return (
     <div
-      className="prose prose-green max-w-none"
+      className="prose prose-green max-w-none markdown-content"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -194,7 +199,7 @@ const PostEditor = ({
       setTitle(post.title || '');
       setContent(post.content || '');
       setTags(post.tags?.join(', ') || '');
-      setExistingFiles(post.files || []);
+      setExistingFiles(post.files ? [...post.files] : []);
     } else {
       setTitle('');
       setContent('');
@@ -807,26 +812,33 @@ export default function Newsletter() {
     user?.publicMetadata?.role === 'lead'
   );
   
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch('/api/v1/newsletter/getPosts');
-        if (response.ok) {
-          const data = await response.json();
-          setPosts(data.posts || []);
-        } else {
-          console.error('Failed to fetch posts');
-        }
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      } finally {
-        setIsLoading(false);
+  const fetchPosts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/v1/newsletter/getPosts');
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data.posts || []);
+      } else {
+        console.error('Failed to fetch posts');
       }
-    };
-    
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  useEffect(() => {
     fetchPosts();
   }, []);
+  
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    if (value === "all") {
+      fetchPosts();
+    }
+  };
   
   const handleViewPost = (post: Post) => {
     setSelectedPost(post);
@@ -906,7 +918,7 @@ export default function Newsletter() {
         <h1 className="text-3xl font-bold text-center mb-8 w-full">NJHS Newsletter</h1>
         
         {canManageNewsletter && (
-          <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="mb-8 w-full">
+          <Tabs defaultValue="all" value={activeTab} onValueChange={handleTabChange} className="mb-8 w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
               <TabsTrigger value="all">All Posts</TabsTrigger>
               <TabsTrigger value="manage">Manage Posts</TabsTrigger>
