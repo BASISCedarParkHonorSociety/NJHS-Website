@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Calendar, Users, BookOpen, Heart, Award, Search } from "lucide-react";
+import ThemeToggle from "../components/ThemeToggle";
 import {
   SignedIn,
   SignedOut,
@@ -273,8 +274,8 @@ export default function ManageUsers() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen w-screen bg-white text-black">
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div className="flex flex-col min-h-screen w-screen bg-white dark:bg-black text-black dark:text-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60">
         <div className="container mx-auto flex h-14 items-center">
           <div className="flex-1">
             <a className="flex items-center space-x-2" href="/">
@@ -286,43 +287,44 @@ export default function ManageUsers() {
           </div>
           <nav className="flex-1 flex items-center justify-center gap-5 text-sm font-medium">
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#about"
             >
               About
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#pillars"
             >
               Pillars
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#activities"
             >
               Activities
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#membership"
             >
               Membership
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/newsletter"
             >
               Newsletter
             </a>
             <a
-              className="transition-colors hover:text-black text-black whitespace-nowrap"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white whitespace-nowrap"
               href="/dashboard"
             >
               Member Dashboard
             </a>
           </nav>
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex justify-end items-center space-x-2">
+            <ThemeToggle />
             <SignedOut>
               <a href="/sign-in">
                 <Button className="bg-green-600 text-white hover:bg-green-700">
@@ -339,7 +341,7 @@ export default function ManageUsers() {
 
       <SignedIn>
         <div className="flex flex-1">
-          <aside className="w-64 bg-gray-50 border-r border-gray-200 min-h-screen">
+          <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 min-h-screen">
             <div className="p-4">
               <h2 className="text-lg font-semibold text-green-600 mb-4">
                 Dashboard
@@ -347,9 +349,9 @@ export default function ManageUsers() {
               <nav className="space-y-1">
                 <a
                   href="/dashboard"
-                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-green-600"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-green-600"
                 >
-                  <Calendar className="mr-3 h-5 w-5 text-gray-400" />
+                  <Calendar className="mr-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                   Overview
                 </a>
                 {(user?.publicMetadata?.role as string) === "admin" ||
@@ -357,7 +359,7 @@ export default function ManageUsers() {
                   <>
                     <a
                       href="/dashboard/manage_users"
-                      className="flex items-center px-3 py-2 text-sm font-medium rounded-md bg-gray-100 text-green-600"
+                      className="flex items-center px-3 py-2 text-sm font-medium rounded-md bg-gray-100 dark:bg-gray-800 text-green-600"
                     >
                       <BookOpen className="mr-3 h-5 w-5 text-green-500" />
                       Manage Users
@@ -366,23 +368,23 @@ export default function ManageUsers() {
                 ) : null}
                 <a
                   href="/dashboard/events"
-                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-green-600"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-green-600"
                 >
-                  <Heart className="mr-3 h-5 w-5 text-gray-400" />
+                  <Heart className="mr-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                   Event Proposals
                 </a>
                 <a
                   href="/dashboard/async"
-                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-green-600"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-green-600"
                 >
-                  <Users className="mr-3 h-5 w-5 text-gray-400" />
+                  <Users className="mr-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                   Submit Async Hours
                 </a>
                 <a
                   href="/dashboard/sync"
-                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-green-600"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-green-600"
                 >
-                  <Users className="mr-3 h-5 w-5 text-gray-400" />
+                  <Users className="mr-3 h-5 w-5 text-gray-400 dark:text-gray-500" />
                   Submit Sync Hours
                 </a>
               </nav>
@@ -410,7 +412,7 @@ export default function ManageUsers() {
                 </div>
                 <input
                   type="text"
-                  className="block w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg bg-white focus:ring-green-500 focus:border-green-500"
+                  className="block w-full p-2 pl-10 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 dark:text-white focus:ring-green-500 focus:border-green-500"
                   placeholder="Search users by name, email, role, or committee..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -420,57 +422,57 @@ export default function ManageUsers() {
                     className="absolute inset-y-0 right-0 flex items-center pr-3"
                     onClick={() => setSearchTerm("")}
                   >
-                    <span className="text-gray-500 hover:text-gray-700">✕</span>
+                    <span className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">✕</span>
                   </button>
                 )}
               </div>
               {searchTerm && (
-                <div className="mt-2 text-sm text-gray-500">
+                <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Found {filteredUsers.length} user{filteredUsers.length !== 1 ? 's' : ''} matching "{searchTerm}"
                 </div>
               )}
             </div>
 
             {showCreateUserForm && (
-              <div className="mb-6 p-4 border rounded-lg bg-gray-50">
-                <h3 className="text-xl font-semibold mb-4">Create New User</h3>
+              <div className="mb-6 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
+                <h3 className="text-xl font-semibold mb-4 dark:text-white">Create New User</h3>
                 <form onSubmit={handleCreateUser} className="space-y-4">
                   <div className="flex flex-col">
-                    <label className="mb-1">First Name:</label>
+                    <label className="mb-1 dark:text-white">First Name:</label>
                     <input
                       type="text"
                       value={newUser.firstName}
                       onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
-                      className="border rounded p-2 bg-white text-black"
+                      className="border rounded p-2 bg-white dark:bg-gray-700 text-black dark:text-white"
                       required
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="mb-1">Last Name:</label>
+                    <label className="mb-1 dark:text-white">Last Name:</label>
                     <input
                       type="text"
                       value={newUser.lastName}
                       onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
-                      className="border rounded p-2 bg-white text-black"
+                      className="border rounded p-2 bg-white dark:bg-gray-700 text-black dark:text-white"
                       required
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="mb-1">Email:</label>
+                    <label className="mb-1 dark:text-white">Email:</label>
                     <input
                       type="email"
                       value={newUser.email}
                       onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                      className="border rounded p-2 bg-white text-black"
+                      className="border rounded p-2 bg-white dark:bg-gray-700 text-black dark:text-white"
                       required
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="mb-1">Role:</label>
+                    <label className="mb-1 dark:text-white">Role:</label>
                     <select
                       value={newUser.role}
                       onChange={(e) => setNewUser({...newUser, role: e.target.value})}
-                      className="border rounded p-2 bg-white text-black"
+                      className="border rounded p-2 bg-white dark:bg-gray-700 text-black dark:text-white"
                     >
                       <option value="user">User</option>
                       <option value="lead">Lead</option>
@@ -478,26 +480,26 @@ export default function ManageUsers() {
                     </select>
                   </div>
                   <div className="flex flex-col">
-                    <label className="mb-1">Committee:</label>
+                    <label className="mb-1 dark:text-white">Committee:</label>
                     <input
                       type="text"
                       value={newUser.committee}
                       onChange={(e) => setNewUser({...newUser, committee: e.target.value})}
-                      className="border rounded p-2 bg-white text-black"
+                      className="border rounded p-2 bg-white dark:bg-gray-700 text-black dark:text-white"
                       placeholder="Leave blank for 'none'"
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="mb-1">Temporary Password:</label>
+                    <label className="mb-1 dark:text-white">Temporary Password:</label>
                     <input
                       type="password"
                       value={newUser.password}
                       onChange={(e) => setNewUser({...newUser, password: e.target.value})}
-                      className="border rounded p-2 bg-white text-black"
+                      className="border rounded p-2 bg-white dark:bg-gray-700 text-black dark:text-white"
                       required
                       minLength={8}
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                       Minimum 8 characters. User can change this later.
                     </p>
                   </div>
@@ -524,18 +526,21 @@ export default function ManageUsers() {
                 <li>Loading...</li>
               ) : filteredUsers.length > 0 ? (
                 filteredUsers.map((registeredUser: any, index: number) => (
-                  <li key={index} className="mb-4 p-4 border rounded-lg bg-white flex justify-between items-center">
+                  <li key={index} className="mb-4 p-4 border rounded-lg bg-white dark:bg-gray-800 flex justify-between items-center">
                     <div className="text-left">
-                      <div className="font-semibold">
+                      <div className="font-semibold dark:text-white">
                         {registeredUser.firstName} {registeredUser.lastName}
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
                         {registeredUser.emailAddresses[0].emailAddress}
                       </div>
                       <div className="text-sm">
-                        <span className="font-medium">Role:</span> {registeredUser.publicMetadata.role || "N/A"} |{" "}
-                        <span className="font-medium">Hours:</span> {registeredUser.publicMetadata.hours || 0} |{" "}
-                        <span className="font-medium">Committee:</span> {registeredUser.publicMetadata.committee || "none"}
+                        <span className="font-medium dark:text-white">Role:</span>{" "}
+                        <span className="dark:text-gray-300">{registeredUser.publicMetadata.role || "N/A"}</span> |{" "}
+                        <span className="font-medium dark:text-white">Hours:</span>{" "}
+                        <span className="dark:text-gray-300">{registeredUser.publicMetadata.hours || 0}</span> |{" "}
+                        <span className="font-medium dark:text-white">Committee:</span>{" "}
+                        <span className="dark:text-gray-300">{registeredUser.publicMetadata.committee || "none"}</span>
                       </div>
                     </div>
                     {(currentUserRole === "admin" || currentUserRole === "lead") && (
@@ -569,7 +574,7 @@ export default function ManageUsers() {
                   </li>
                 ))
               ) : (
-                <li className="text-center p-4 border rounded-lg bg-gray-50">
+                <li className="text-center p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
                   {searchTerm ? "No users found matching your search." : "No registered users found."}
                 </li>
               )}
@@ -577,21 +582,21 @@ export default function ManageUsers() {
           </main>
         </div>
       </SignedIn>
-      <footer id="contact" className="w-full py-6 bg-gray-100">
+      <footer id="contact" className="w-full py-6 bg-gray-100 dark:bg-gray-900">
         <div className="px-4 md:px-6 h-full flex flex-col justify-between w-full">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <Award className="h-6 w-6 text-green-600" />
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
+              <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
                 © 2025 BASIS Cedar Park NJHS. All rights reserved.
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
+              <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
                 Contact:{" "}
                 <a
                   href="mailto:contact@basiscpk.com"
-                  className="underline hover:text-green-600"
+                  className="underline hover:text-green-600 dark:hover:text-green-400"
                 >
                   contact@basiscpk.com
                 </a>
