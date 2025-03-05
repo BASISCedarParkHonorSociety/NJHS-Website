@@ -13,11 +13,12 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen w-screen bg-white text-black">
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div className="flex flex-col min-h-screen w-screen bg-white dark:bg-black text-black dark:text-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60">
         <div className="container mx-auto flex h-14 items-center">
           <div className="flex-1">
             <a className="flex items-center space-x-2" href="/">
@@ -29,43 +30,44 @@ export default function Home() {
           </div>
           <nav className="flex-1 flex items-center justify-center gap-5 text-sm font-medium">
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="#about"
             >
               About
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="#pillars"
             >
               Pillars
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="#activities"
             >
               Activities
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="#membership"
             >
               Membership
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/newsletter"
             >
               Newsletter
             </a>
             <a
-              className="transition-colors hover:text-black text-black whitespace-nowrap"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white whitespace-nowrap"
               href="/dashboard"
             >
               Member Dashboard
             </a>
           </nav>
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex justify-end items-center space-x-2">
+            <ThemeToggle />
             <SignedOut>
               <a href="/sign-in">
                 <Button className="bg-green-600 text-white hover:bg-green-700">
@@ -99,11 +101,11 @@ export default function Home() {
               >
                 <a href="#membership">Join NJHS</a>
               </Button>
-              <Button
-                variant="outline"
-                className="text-green-600 border-green-600 hover:bg-green-50"
-                asChild
-              >
+                <Button
+                  variant="outline"
+                  className="text-green-600 border-green-600 hover:bg-green-50 dark:hover:bg-green-950"
+                  asChild
+                >
                 <a href="#activities">Our Activities</a>
               </Button>
             </div>
@@ -112,13 +114,13 @@ export default function Home() {
 
         <section
           id="about"
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100"
+          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-900"
         >
           <div className="container mx-auto px-4 md:px-6 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4 dark:text-white">
               About Our Chapter
             </h2>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center">
+            <p className="mx-auto max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center">
               The BASIS Cedar Park NJHS chapter is dedicated to recognizing
               outstanding middle school students. We not only honor students for
               their academic achievements but also challenge them to develop
@@ -128,9 +130,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="pillars" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="pillars" className="w-full py-12 md:py-24 lg:py-32 dark:bg-black">
           <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4 dark:text-white">
               NJHS Pillars
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 mt-8">
@@ -177,10 +179,10 @@ export default function Home() {
 
         <section
           id="activities"
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100"
+          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-900"
         >
           <div className="mx-auto container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4 dark:text-white">
               Our Activities
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
@@ -229,17 +231,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="membership" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="membership" className="w-full py-12 md:py-24 lg:py-32 dark:bg-black">
           <div className="mx-auto container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4 dark:text-white">
               Membership Information
             </h2>
             <div className="mx-auto max-w-[700px] space-y-4">
-              <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 To be eligible for membership in NJHS, students must meet the
                 following criteria:
               </p>
-              <ul className="list-disc list-inside text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 <li>Maintain a cumulative GPA of 3.5 or higher</li>
                 <li>
                   Demonstrate excellence in leadership, service, character, and
@@ -248,7 +250,7 @@ export default function Home() {
                 <li>Be in grades 7-9</li>
                 <li>Complete the membership application process in January</li>
               </ul>
-              <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 If you have any questions about joining NJHS please contact our
                 faculty advisor.
               </p>
@@ -265,21 +267,21 @@ export default function Home() {
         </section>
       </main>
 
-      <footer id="contact" className="w-full py-6 bg-gray-100">
+      <footer id="contact" className="w-full py-6 bg-gray-100 dark:bg-gray-900">
         <div className="mx-auto container px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <Award className="h-6 w-6 text-green-600" />
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
+              <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
                 © 2025 BASIS Cedar Park NJHS. All rights reserved.
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
+              <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
                 Contact:{" "}
                 <a
                   href="mailto:contact@basiscpk.com"
-                  className="underline hover:text-green-600"
+                  className="underline hover:text-green-600 dark:hover:text-green-400"
                 >
                   contact@basiscpk.com
                 </a>

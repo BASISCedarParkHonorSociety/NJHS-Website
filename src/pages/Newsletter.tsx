@@ -7,6 +7,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
+import ThemeToggle from "../components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -84,7 +85,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
 
   return (
     <div
-      className="prose prose-green max-w-none markdown-content"
+      className="prose prose-green dark:prose-invert max-w-none markdown-content dark:text-white"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -107,10 +108,10 @@ const PostPreview = ({ post, onView }: { post: Post; onView: (post: Post) => voi
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-700">{previewText}</p>
+        <p className="text-gray-700 dark:text-gray-300">{previewText}</p>
         {post.files && post.files.length > 0 && (
           <div className="mt-2">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {post.files.length} file{post.files.length !== 1 ? 's' : ''} attached
             </p>
           </div>
@@ -125,15 +126,15 @@ const PostPreview = ({ post, onView }: { post: Post; onView: (post: Post) => voi
 
 const PostView = ({ post, onClose }: { post: Post; onClose: () => void }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+    <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">{post.title}</h2>
+        <h2 className="text-2xl font-bold dark:text-white">{post.title}</h2>
         <Button variant="outline" size="sm" onClick={onClose}>
           <X className="h-4 w-4 text-red-500" />
         </Button>
       </div>
       
-      <div className="text-gray-600 mb-2">
+      <div className="text-gray-600 dark:text-gray-300 mb-2">
         By {post.authorName} on {formatDate(post.date)}
         {post.lastUpdated && (
           <span className="ml-2 text-sm italic">
@@ -148,7 +149,7 @@ const PostView = ({ post, onClose }: { post: Post; onClose: () => void }) => {
         ))}
       </div>
       
-      <div className="prose prose-green max-w-none mb-6">
+      <div className="prose prose-green dark:prose-invert max-w-none mb-6">
         <MarkdownRenderer content={post.content} />
       </div>
       
@@ -162,9 +163,9 @@ const PostView = ({ post, onClose }: { post: Post; onClose: () => void }) => {
                 href={`/api/v1/newsletter/getFile?id=${file.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200"
+                className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
               >
-                <FileText className="h-4 w-4 mr-2" />
+                <FileText className="h-4 w-4 mr-2 dark:text-gray-300" />
                 {file.name}
               </a>
             ))}
@@ -260,15 +261,15 @@ const PostEditor = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-black">{post ? 'Edit Post' : 'Create New Post'}</DialogTitle>
-          <DialogDescription className="text-gray-600">
+          <DialogTitle>{post ? 'Edit Post' : 'Create New Post'}</DialogTitle>
+          <DialogDescription>
             {post ? 'Edit your newsletter post below.' : 'Create a new newsletter post.'}
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="title" className="text-black">Title</Label>
+            <Label htmlFor="title" className="text-black dark:text-white">Title</Label>
             <Input
               id="title"
               placeholder="Post title"
@@ -279,7 +280,7 @@ const PostEditor = ({
           </div>
           
           <div>
-            <Label htmlFor="content" className="text-black">Content (Markdown supported)</Label>
+            <Label htmlFor="content" className="text-black dark:text-white">Content (Markdown supported)</Label>
             <Textarea
               id="content"
               placeholder="Write your post content..."
@@ -291,7 +292,7 @@ const PostEditor = ({
           </div>
           
           <div>
-            <Label htmlFor="tags" className="text-black">Tags (comma-separated)</Label>
+            <Label htmlFor="tags" className="text-black dark:text-white">Tags (comma-separated)</Label>
             <Input
               id="tags"
               placeholder="event, announcement, news"
@@ -302,15 +303,15 @@ const PostEditor = ({
           
           {existingFiles.length > 0 && (
             <div>
-              <Label className="text-black">Existing Files</Label>
+              <Label className="text-black dark:text-white">Existing Files</Label>
               <div className="flex flex-wrap gap-2 mt-2">
                 {existingFiles.map((file) => (
                   <div 
                     key={file.id}
-                    className="flex items-center bg-gray-100 rounded-full px-3 py-1"
+                    className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1"
                   >
-                    <FileText className="h-4 w-4 mr-2 text-gray-700" />
-                    <span className="mr-2 text-gray-700">{file.name}</span>
+                    <FileText className="h-4 w-4 mr-2 text-gray-700 dark:text-gray-300" />
+                    <span className="mr-2 text-gray-700 dark:text-gray-300">{file.name}</span>
                     <Button
                       type="button"
                       variant="outline"
@@ -318,7 +319,7 @@ const PostEditor = ({
                       className="h-5 w-5 p-0 rounded-full border border-gray-300"
                       onClick={() => handleRemoveExistingFile(file.id)}
                     >
-                      <X className="h-3 w-3 text-gray-700" />
+                      <X className="h-3 w-3 text-gray-700 dark:text-gray-300" />
                       <span className="sr-only">Remove {file.name}</span>
                     </Button>
                   </div>
@@ -328,7 +329,7 @@ const PostEditor = ({
           )}
           
           <div>
-            <Label htmlFor="files" className="text-black">Attach Files</Label>
+            <Label htmlFor="files" className="text-black dark:text-white">Attach Files</Label>
             <Input
               id="files"
               type="file"
@@ -337,7 +338,7 @@ const PostEditor = ({
               className="cursor-pointer"
             />
             {files.length > 0 && (
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {files.length} file{files.length !== 1 ? 's' : ''} selected
               </p>
             )}
@@ -383,8 +384,8 @@ const DeleteConfirmation = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-black">Delete Post</DialogTitle>
-          <DialogDescription className="text-gray-600">
+          <DialogTitle className="text-black dark:text-white">Delete Post</DialogTitle>
+          <DialogDescription className="text-gray-600 dark:text-gray-300">
             Are you sure you want to delete "{post?.title}"? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
@@ -481,38 +482,38 @@ const UserSearch = ({
       </div>
       
       {isOpen && (
-        <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
           {filteredUsers.length > 0 ? (
             <ul className="py-1">
               {filteredUsers.map((user: User) => (
                 <li 
                   key={user.id}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex justify-between items-center"
                   onClick={() => handleSelectUser(user.id, `${user.firstName} ${user.lastName}`)}
                 >
                   <div>
-                    <span className="font-medium">{user.firstName} {user.lastName}</span>
+                    <span className="font-medium dark:text-white">{user.firstName} {user.lastName}</span>
                     {user.publicMetadata?.role && (
-                      <span className="ml-2 text-xs bg-gray-200 text-gray-700 px-1 py-0.5 rounded">
+                      <span className="ml-2 text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-1 py-0.5 rounded">
                         {user.publicMetadata.role}
                       </span>
                     )}
                   </div>
                   {user.publicMetadata?.committee && (
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
                       {user.publicMetadata.committee}
                     </span>
                   )}
                 </li>
               ))}
               {users && users.length > filteredUsers.length && (
-                <li className="px-4 py-2 text-sm text-gray-500 italic">
+                <li className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 italic">
                   Showing first 100 results. Refine your search to see more specific results.
                 </li>
               )}
             </ul>
           ) : (
-            <div className="px-4 py-2 text-sm text-gray-500">
+            <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
               No users found
             </div>
           )}
@@ -756,9 +757,9 @@ const NewsletterManagement = ({ currentUser }: { currentUser?: User }) => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700">{post.content.substring(0, 100)}...</p>
+                <p className="text-gray-700 dark:text-gray-300">{post.content.substring(0, 100)}...</p>
                 {post.files && post.files.length > 0 && (
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                     {post.files.length} file{post.files.length !== 1 ? 's' : ''} attached
                   </p>
                 )}
@@ -865,8 +866,8 @@ export default function Newsletter() {
   };
   
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-black text-black dark:text-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60">
         <div className="container mx-auto flex h-14 items-center">
           <div className="flex-1">
             <a className="flex items-center space-x-2" href="/">
@@ -878,43 +879,44 @@ export default function Newsletter() {
           </div>
           <nav className="flex-1 flex items-center justify-center gap-5 text-sm font-medium">
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#about"
             >
               About
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#pillars"
             >
               Pillars
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#activities"
             >
               Activities
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/#membership"
             >
               Membership
             </a>
             <a
-              className="transition-colors hover:text-black text-black"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
               href="/newsletter"
             >
               Newsletter
             </a>
             <a
-              className="transition-colors hover:text-black text-black whitespace-nowrap"
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white whitespace-nowrap"
               href="/dashboard"
             >
               Member Dashboard
             </a>
           </nav>
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex justify-end items-center space-x-2">
+            <ThemeToggle />
             <SignedOut>
               <a href="/sign-in">
                 <Button className="bg-green-600 text-white hover:bg-green-700">
@@ -981,21 +983,21 @@ export default function Newsletter() {
           </div>
         )}
       </main>
-      <footer id="contact" className="w-full py-6 bg-gray-100 mt-auto">
+      <footer id="contact" className="w-full py-6 bg-gray-100 dark:bg-gray-900 mt-auto">
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
               <Award className="h-6 w-6 text-green-600" />
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
+              <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
                 © 2025 BASIS Cedar Park NJHS. All rights reserved.
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-              <p className="text-center text-sm leading-loose text-gray-600 md:text-left">
-                Contact:{" "}
-                <a
-                  href="mailto:contact@basiscpk.com"
-                  className="underline hover:text-green-600"
+                <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
+                  Contact:{" "}
+                  <a
+                    href="mailto:contact@basiscpk.com"
+                    className="underline hover:text-green-600 dark:hover:text-green-400"
                 >
                   contact@basiscpk.com
                 </a>
