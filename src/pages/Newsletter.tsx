@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { BrowserRouter as Router, Route, Routes, useParams, Link, useNavigate } from "react-router-dom";
 
 interface PostFile {
   id: string;
@@ -34,6 +35,7 @@ interface Post {
   lastUpdated?: string;
   tags?: string[];
   files?: PostFile[];
+  url: string;
 }
 
 interface User {
@@ -118,7 +120,9 @@ const PostPreview = ({ post, onView }: { post: Post; onView: (post: Post) => voi
         )}
       </CardContent>
       <CardFooter>
-        <Button onClick={() => onView(post)}>Read More</Button>
+        <Link to={`/newsletter/${post.id}`}>
+          <Button>Read More</Button>
+        </Link>
       </CardFooter>
     </Card>
   );
@@ -335,7 +339,7 @@ const PostEditor = ({
               type="file"
               onChange={handleFileChange}
               multiple
-              className="cursor-pointer"
+              className="cursor-pointer text-gray-900 dark:text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 dark:file:bg-gray-700 dark:file:text-gray-200 hover:file:bg-gray-300 dark:hover:file:bg-gray-600 h-13"
             />
             {files.length > 0 && (
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -345,7 +349,7 @@ const PostEditor = ({
           </div>
           
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting} className="text-black dark:text-white">
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
@@ -382,15 +386,15 @@ const DeleteConfirmation = ({
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-black dark:text-white">Delete Post</DialogTitle>
+        </DialogHeader>
           <DialogDescription className="text-gray-600 dark:text-gray-300">
             Are you sure you want to delete "{post?.title}"? This action cannot be undone.
           </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose} disabled={isDeleting}>
+        <DialogFooter className="mt-4">
+          <Button variant="outline" onClick={onClose} disabled={isDeleting} className="text-black dark:text-white">
             Cancel
           </Button>
           <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
@@ -801,7 +805,7 @@ const NewsletterManagement = ({ currentUser }: { currentUser?: User }) => {
   );
 };
 
-export default function Newsletter() {
+const Newsletter = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -1008,4 +1012,146 @@ export default function Newsletter() {
       </footer>
     </div>
   );
-}
+};
+
+const NewsletterPost = () => {
+  const { postId } = useParams<{ postId: string }>();
+  const [post, setPost] = useState<Post | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`/api/v1/newsletter/getPost?id=${postId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setPost(data.post || null);
+        } else {
+          console.error('Failed to fetch post');
+        }
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (postId) {
+      fetchPost();
+    }
+  }, [postId]);
+
+  const handleClose = () => {
+    navigate('/newsletter');
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-white dark:bg-black text-black dark:text-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60">
+        <div className="container mx-auto flex h-14 items-center">
+          <div className="flex-1">
+            <a className="flex items-center space-x-2" href="/">
+              <Award className="h-6 w-6 text-green-600" />
+              <span className="hidden font-bold sm:inline-block text-green-600">
+                BASIS Cedar Park NJHS
+              </span>
+            </a>
+          </div>
+          <nav className="flex-1 flex items-center justify-center gap-5 text-sm font-medium">
+            <a
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
+              href="/#about"
+            >
+              About
+            </a>
+            <a
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
+              href="/#pillars"
+            >
+              Pillars
+            </a>
+            <a
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
+              href="/#activities"
+            >
+              Activities
+            </a>
+            <a
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
+              href="/#membership"
+            >
+              Membership
+            </a>
+            <a
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white"
+              href="/newsletter"
+            >
+              Newsletter
+            </a>
+            <a
+              className="transition-colors hover:text-black dark:hover:text-white text-black dark:text-white whitespace-nowrap"
+              href="/dashboard"
+            >
+              Member Dashboard
+            </a>
+          </nav>
+          <div className="flex-1 flex justify-end items-center space-x-2">
+            <ThemeToggle />
+            <SignedOut>
+              <a href="/sign-in">
+                <Button className="bg-green-600 text-white hover:bg-green-700">
+                  Sign In
+                </Button>
+              </a>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1 container mx-auto py-8 px-4 md:px-6 lg:px-8 w-full max-w-7xl flex flex-col items-center">
+        {isLoading ? (
+          <p className="text-center">Loading post...</p>
+        ) : post ? (
+          <PostView post={post} onClose={handleClose} />
+        ) : (
+          <div className="text-center">
+            <p className="mb-4">Post not found.</p>
+            <Link to="/newsletter">
+              <Button>Back to Newsletter</Button>
+            </Link>
+          </div>
+        )}
+      </main>
+      <footer id="contact" className="w-full py-6 bg-gray-100 dark:bg-gray-900 mt-auto">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+              <Award className="h-6 w-6 text-green-600" />
+              <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
+                © 2025 BASIS Cedar Park NJHS. All rights reserved.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+                <p className="text-center text-sm leading-loose text-gray-600 dark:text-gray-400 md:text-left">
+                  Contact:{" "}
+                  <a
+                    href="mailto:contact@basiscpk.com"
+                    className="underline hover:text-green-600 dark:hover:text-green-400"
+                >
+                  contact@basiscpk.com
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export { Newsletter, NewsletterPost };
