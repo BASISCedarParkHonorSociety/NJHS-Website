@@ -35,8 +35,17 @@ export default function ManageUsers() {
       const data = await response.json();
       setUsers(data.data);
       setFilteredUsers(data.data);
+      const usersList = Array.isArray(data) ? data : [];
+      
+      console.log("Fetched users data:", usersList);
+      console.log("User count:", usersList.length);
+      
+      setUsers(usersList || []);
+      setFilteredUsers(usersList || []);
     } catch (error) {
       console.error("Error fetching users:", error);
+      setUsers([]);
+      setFilteredUsers([]);
     } finally {
       setLoading(false);
     }
@@ -48,14 +57,17 @@ export default function ManageUsers() {
 
   useEffect(() => {
     if (!searchTerm.trim()) {
-      setFilteredUsers(users);
+      setFilteredUsers(users || []);
       return;
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const filtered = users.filter((user) => {
-      const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
-      const email = user.emailAddresses[0].emailAddress.toLowerCase();
+    const filtered = (users || []).filter((user) => {
+      if (!user) return false;
+      
+      const fullName = `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase();
+      const email = user.emailAddresses && user.emailAddresses[0] ? 
+                   user.emailAddresses[0].emailAddress.toLowerCase() : '';
       const role = (user.publicMetadata?.role || "").toLowerCase();
       const committee = (user.publicMetadata?.committee || "").toLowerCase();
 
@@ -506,7 +518,7 @@ export default function ManageUsers() {
                     >
                       Create User
                     </Button>
-                    <Button 
+                    <Button
                       type="button"
                       className="bg-gray-600 text-white hover:bg-gray-700"
                       onClick={() => setShowCreateUserForm(false)}
