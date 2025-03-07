@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "vite --host",
     "dev:backend": "nodemon --env-file=.env.local server.js",
-    "build": "tsc -b && vite build",
+    "build": "node build.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node --env-file=.env.local server.js"

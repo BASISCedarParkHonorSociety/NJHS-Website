@@ -9,6 +9,7 @@ import {
 import ThemeToggle from "../components/ThemeToggle";
 
 export default function Navbar() {
+  // @ts-ignore
   const { isLoaded, isSignedIn, user } = useUser();
   if (!isLoaded || !isSignedIn) {
     return <h1>Error</h1>;
