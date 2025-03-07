@@ -11,13 +11,25 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // Proxy API requests to the backend server
       '/api': {
         target: 'http://localhost:5174',
         changeOrigin: true,
       },
     },
-    // Use a different port than the backend server
     port: 5173,
   },
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return
+        warn(warning)
+      }
+    }
+  },
+  esbuild: {
+    drop: ['console', 'debugger'],
+    pure: ['console.log'],
+    legalComments: 'none',
+    ignoreAnnotations: true
+  }
 })

@@ -33,7 +33,7 @@ export default function ManageUsers() {
         "/api/v1/users/listUsers"
       );
       const data = await response.json();
-      setUsers(data.data); // Access the data array from the response
+      setUsers(data.data);
       setFilteredUsers(data.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -46,7 +46,6 @@ export default function ManageUsers() {
     fetchUsers();
   }, []);
 
-  // Filter users based on search term
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredUsers(users);
@@ -71,7 +70,6 @@ export default function ManageUsers() {
     setFilteredUsers(filtered);
   }, [searchTerm, users]);
 
-  // Get the current user's role
   const currentUserRole = user?.publicMetadata?.role || "user";
 
   const handleDeleteUser = async (userID: string) => {
@@ -95,7 +93,7 @@ export default function ManageUsers() {
 
       if (response.ok) {
         alert("User deleted successfully");
-        fetchUsers(); // Refresh the user list
+        fetchUsers();
       } else {
         alert(`Error deleting user: ${data.error}`);
       }
@@ -133,7 +131,7 @@ export default function ManageUsers() {
           committee: '',
           password: '',
         });
-        fetchUsers(); // Refresh the user list
+        fetchUsers();
       } else {
         alert(`Error creating user: ${data.error}`);
       }
@@ -168,7 +166,6 @@ export default function ManageUsers() {
 
       if (response.ok) {
         alert("Hours updated successfully");
-        // Re-fetch users to update the list
         fetchUsers();
       } else {
         alert(`Error updating hours:${data.error}`);
@@ -235,7 +232,7 @@ export default function ManageUsers() {
 
     try {
       const response = await fetch(
-        "/api/v1/users/initUser", // Reusing the initUser endpoint to update metadata
+        "/api/v1/users/initUser",
         {
           method: "POST",
           headers: {
@@ -254,7 +251,6 @@ export default function ManageUsers() {
 
       if (response.ok) {
         alert("Committee updated successfully");
-        // Re-fetch users to update the list
         fetchUsers();
       } else {
         alert(`Error updating committee:${data.error}`);

@@ -580,9 +580,9 @@ const NewsletterManagement = ({ currentUser }: { currentUser?: User }) => {
             // Filter if needed (currently including all users for debugging)
             const filteredUsers = transformedUsers.filter((user: User) => {
               // Include all users for now to debug
-              return true;
+              // return true;
               // Uncomment below to filter by role again once debugging is complete
-              // return user.publicMetadata?.role === 'admin' || user.publicMetadata?.role === 'lead';
+              return user.publicMetadata?.role === 'admin' || user.publicMetadata?.role === 'lead';
             });
             
             setAllUsers(filteredUsers);
