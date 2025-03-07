@@ -188,29 +188,29 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
               {[
                 {
-                  title: "Activity One",
-                  date: "Every First Saturday",
+                  title: "Chapter Meetings",
+                  date: "Monthly",
                   icon: Heart,
                 },
                 {
-                  title: "Another Activity",
-                  date: "Weekdays after school",
+                  title: "Volunteering Opportunities",
+                  date: "Weekly",
                   icon: BookOpen,
                 },
                 {
-                  title: "NJHS Meeting",
-                  date: "Monthly",
+                  title: "NJHS Invitations",
+                  date: "March 12th, 2025",
                   icon: Users,
                 },
                 {
-                  title: "Third Activity",
-                  date: "Quarterly",
+                  title: "NJHS Application Deadline",
+                  date: "March 25th, 2025",
                   icon: Award,
                 },
-                { title: "Activity 4", date: "Annually", icon: BookOpen },
+                { title: "Membership Decisions", date: "April 18th, 2025", icon: BookOpen },
                 {
                   title: "Induction Ceremony",
-                  date: "End of School Year",
+                  date: "May 2nd, 2025",
                   icon: Award,
                 },
               ].map((activity, index) => (
@@ -247,7 +247,7 @@ export default function Home() {
                   Demonstrate excellence in leadership, service, character, and
                   citizenship
                 </li>
-                <li>Be in grades 7-9</li>
+                <li>Be in grades 6-9</li>
                 <li>Complete the membership application process in January</li>
               </ul>
               <p className="text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">

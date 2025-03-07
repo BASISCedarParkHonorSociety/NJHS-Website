@@ -82,7 +82,6 @@ const Event: React.FC = () => {
       </header>
 
       <SignedIn>
-        <br></br>
         <div className="flex flex-1">
           {/* Sidebar */}
           <aside className="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 min-h-screen">
