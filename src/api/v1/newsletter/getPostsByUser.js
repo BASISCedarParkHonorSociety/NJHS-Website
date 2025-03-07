@@ -23,7 +23,12 @@ export default async function handler(req, res) {
     const newsletter = await ensureNewsletterFile();
     const userPosts = newsletter.posts.filter(post => post.authorId === userId);
 
-    res.status(200).json({ posts: userPosts });
+    const userPostsWithUrls = userPosts.map(post => ({
+      ...post,
+      url: `/newsletter/${post.id}`
+    }));
+
+    res.status(200).json({ posts: userPostsWithUrls });
   } catch (error) {
     console.error('Error getting user posts:', error);
     res.status(500).json({ error: 'Failed to get user posts' });

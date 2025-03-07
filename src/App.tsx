@@ -1,6 +1,6 @@
 import "./App.css";
 import Home from "./pages/Home2";
-import Newsletter from "./pages/Newsletter";
+import { Newsletter, NewsletterPost } from "./pages/Newsletter";
 import Dashboard from "./pages/Dashboard";
 import ManageUsers from "./pages/ManageUsers";
 import Event from "./pages/Event";
@@ -17,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newsletter" element={<Newsletter />} />
+        <Route path="/newsletter/:postId" element={<NewsletterPost />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/manage_users" element={<ManageUsers />} />
         <Route path="/dashboard/events" element={<Event />} />

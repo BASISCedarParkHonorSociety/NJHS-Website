@@ -242,7 +242,7 @@ export default function Home() {
                 following criteria:
               </p>
               <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                <li>Maintain a cumulative GPA of 3.5 or higher</li>
+                <li>Maintain a cumulative GPA of 3.6 or higher</li>
                 <li>
                   Demonstrate excellence in leadership, service, character, and
                   citizenship

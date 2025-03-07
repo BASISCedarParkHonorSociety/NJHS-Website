@@ -26,15 +26,19 @@ export default async function handler(req, res) {
 
     const newsletter = await ensureNewsletterFile();
 
+    const postId = Date.now().toString();
+    const postUrl = `/newsletter/${postId}`;
+
     const post = {
-      id: Date.now().toString(),
+      id: postId,
       title,
       content,
       tags,
       authorId: userId,
       authorName: `${user.firstName} ${user.lastName}`,
       date: new Date().toISOString(),
-      files: []
+      files: [],
+      url: postUrl
     };
 
     if (files && files.length > 0) {
