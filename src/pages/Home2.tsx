@@ -121,11 +121,12 @@ export default function Home() {
               About Our Chapter
             </h2>
             <p className="mx-auto max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed text-center">
-              The BASIS Cedar Park NJHS chapter is dedicated to recognizing
-              outstanding middle school students. We not only honor students for
-              their academic achievements but also challenge them to develop
-              further through active involvement in school activities and
-              community service.
+              The BASIS Cedar Park National Junior Honor Society chapter recognizes and nurtures
+              exceptional middle school students who demonstrate academic excellence and leadership potential.
+              Beyond celebrating scholarly achievements, we actively mentor our members to grow through
+              meaningful community service, leadership opportunities, and character-building activities.
+              Our chapter strives to develop well-rounded individuals who will make lasting positive impacts
+              in our school and community.
             </p>
           </div>
         </section>
@@ -140,27 +141,27 @@ export default function Home() {
                 {
                   title: "Scholarship",
                   icon: BookOpen,
-                  description: "Maintaining academic excellence",
+                  description: "Maintaining academic excellence through diligent study and continuous learning",
                 },
                 {
                   title: "Service",
                   icon: Heart,
-                  description: "Contributing to school and community",
+                  description: "Making meaningful contributions to improve our school and local community",
                 },
                 {
                   title: "Leadership",
                   icon: Users,
-                  description: "Influencing and inspiring others",
+                  description: "Positively influencing and inspiring others through actions and initiatives",
                 },
                 {
                   title: "Character",
                   icon: Award,
-                  description: "Demonstrating high standards",
+                  description: "Upholding high standards of honesty, responsibility, and ethics",
                 },
                 {
                   title: "Citizenship",
                   icon: Award,
-                  description: "Fulfilling civic duties",
+                  description: "Actively participating in and contributing to school, community, and society",
                 },
               ].map((pillar, index) => (
                 <Card key={index}>
@@ -242,17 +243,18 @@ export default function Home() {
                 following criteria:
               </p>
               <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                <li>Maintain a cumulative GPA of 3.6 or higher</li>
+                <li>Maintain a minimum cumulative GPA of 3.6 throughout the academic year</li>
                 <li>
-                  Demonstrate excellence in leadership, service, character, and
-                  citizenship
+                  Actively demonstrate leadership qualities through school activities, exemplary character in daily interactions,
+                  dedication to community service, and commitment to good citizenship
                 </li>
-                <li>Be in grades 6-9</li>
-                <li>Complete the membership application process in January</li>
+                <li>Currently enrolled in grades 6-9 at BASIS Cedar Park</li>
+                <li>Successfully complete the comprehensive membership application process during the January submission period</li>
               </ul>
               <p className="text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                If you have any questions about joining NJHS please contact our
-                faculty advisor.
+                Have questions about joining NJHS or need more information? Our faculty advisor
+                is here to help guide you through the membership process and answer any questions
+                about our chapter's activities and requirements.
               </p>
               <div className="flex justify-center mt-6">
                 <Button

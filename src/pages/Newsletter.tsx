@@ -226,6 +226,7 @@ const PostEditor = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
+      alert('Please provide both a title and content for your post.');
       return;
     }
     
@@ -267,7 +268,7 @@ const PostEditor = ({
         <DialogHeader>
           <DialogTitle>{post ? 'Edit Post' : 'Create New Post'}</DialogTitle>
           <DialogDescription>
-            {post ? 'Edit your newsletter post below.' : 'Create a new newsletter post.'}
+            {post ? 'Make changes to your existing newsletter post.' : 'Create a new post for the NJHS newsletter.'}
           </DialogDescription>
         </DialogHeader>
         
@@ -391,7 +392,7 @@ const DeleteConfirmation = ({
           <DialogTitle className="text-black dark:text-white">Delete Post</DialogTitle>
         </DialogHeader>
           <DialogDescription className="text-gray-600 dark:text-gray-300">
-            Are you sure you want to delete "{post?.title}"? This action cannot be undone.
+            Are you sure you want to delete the post titled "{post?.title}"? This action cannot be undone and all associated data will be permanently deleted.
           </DialogDescription>
         <DialogFooter className="mt-4">
           <Button variant="outline" onClick={onClose} disabled={isDeleting} className="text-black dark:text-white">
@@ -518,7 +519,7 @@ const UserSearch = ({
             </ul>
           ) : (
             <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
-              No users found
+              No users found matching your search criteria. Please try different search terms.
             </div>
           )}
         </div>
@@ -782,7 +783,7 @@ const NewsletterManagement = ({ currentUser }: { currentUser?: User }) => {
           ))}
         </div>
       ) : (
-        <p>No posts yet. Create your first post!</p>
+        <p>No posts found.</p>
       )}
       
       <PostEditor
@@ -959,7 +960,7 @@ const Newsletter = () => {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-center">No newsletter posts available yet.</p>
+                    <p className="text-center">No newsletter posts are available at this time.</p>
                   )}
                 </div>
               )}

@@ -85,7 +85,7 @@ export default function ManageUsers() {
   const currentUserRole = user?.publicMetadata?.role || "user";
 
   const handleDeleteUser = async (userID: string) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) {
+    if (!window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
       return;
     }
 
@@ -133,7 +133,7 @@ export default function ManageUsers() {
       const data = await response.json();
 
       if (response.ok) {
-        alert("User created successfully");
+        alert(`User ${newUser.firstName} ${newUser.lastName} has been created successfully.`);
         setShowCreateUserForm(false);
         setNewUser({
           firstName: '',
@@ -145,20 +145,20 @@ export default function ManageUsers() {
         });
         fetchUsers();
       } else {
-        alert(`Error creating user: ${data.error}`);
+        alert(`Unable to create user: ${data.error}. Please try again.`);
       }
     } catch (error) {
       console.error("Error creating user:", error);
-      alert("Error creating user");
+      alert("An unexpected error occurred while creating the user. Please try again.");
     }
   };
 
   const handleAddHours = async (userID: string) => {
-    const amountToAddString = prompt("Enter the amount of hours to set:");
+    const amountToAddString = prompt("Please enter the total number of service hours for this user:");
     const amountToAdd = parseFloat(amountToAddString || "");
 
     if (isNaN(amountToAdd)) {
-      alert("Invalid number entered");
+      alert("Please enter a valid number for service hours (e.g., 5.5 or 10).");
       return;
     }
 
@@ -192,11 +192,14 @@ export default function ManageUsers() {
     const currentUser = users.find(u => u.id === userID);
     const currentRole = currentUser?.publicMetadata?.role || "user";
     
-    const newRole = prompt("Enter the role (user/lead/admin):", currentRole);
+    const newRole = prompt(
+      "Please select a role for this user:\n- 'user': Regular member\n- 'lead': Committee leader\n- 'admin': System administrator",
+      currentRole
+    );
     
     if (!newRole || !["user", "lead", "admin"].includes(newRole) || newRole === currentRole) {
       if (newRole && !["user", "lead", "admin"].includes(newRole)) {
-        alert("Invalid role. Please enter 'user', 'lead', or 'admin'.");
+        alert("Invalid role selected. Please choose either 'user', 'lead', or 'admin'.");
       }
       return;
     }
@@ -236,7 +239,7 @@ export default function ManageUsers() {
     const currentUser = users.find(u => u.id === userID);
     const currentCommittee = currentUser?.publicMetadata?.committee || "none";
     
-    const newCommittee = prompt("Enter the committee name:", currentCommittee);
+    const newCommittee = prompt("Enter the committee name (e.g., 'Events', 'Service', 'Membership'). Leave blank or enter 'none' if not assigned to a committee:", currentCommittee);
     
     if (!newCommittee || newCommittee === currentCommittee) {
       return;
@@ -531,7 +534,7 @@ export default function ManageUsers() {
             )}
             <ul>
               {loading ? (
-                <li>Loading...</li>
+                <li className="text-center p-4">Loading user data, please wait...</li>
               ) : filteredUsers.length > 0 ? (
                 filteredUsers.map((registeredUser: any, index: number) => (
                   <li key={index} className="mb-4 p-4 border rounded-lg bg-white dark:bg-gray-800 flex justify-between items-center">
@@ -554,25 +557,25 @@ export default function ManageUsers() {
                     {(currentUserRole === "admin" || currentUserRole === "lead") && (
                       <div className="flex gap-2">
                         <Button
-                          className="bg-blue-500 hover:bg-blue-600 text-white"
+                          className="bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 text-white"
                           onClick={() => handleAddHours(registeredUser.id)}
                         >
                           Set Hours
                         </Button>
                         <Button
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                          className="bg-yellow-500 dark:bg-yellow-600 hover:bg-yellow-600 dark:hover:bg-yellow-700 text-white"
                           onClick={() => handleEditRole(registeredUser.id)}
                         >
                           Edit Role
                         </Button>
                         <Button
-                          className="bg-purple-500 hover:bg-purple-600 text-white"
+                          className="bg-purple-500 dark:bg-purple-600 hover:bg-purple-600 dark:hover:bg-purple-700 text-white"
                           onClick={() => handleEditCommittee(registeredUser.id)}
                         >
                           Edit Committee
                         </Button>
                         <Button
-                          className="bg-red-500 hover:bg-red-600 text-white"
+                          className="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700 text-white"
                           onClick={() => handleDeleteUser(registeredUser.id)}
                         >
                           Delete
