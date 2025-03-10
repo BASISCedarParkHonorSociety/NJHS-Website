@@ -10,7 +10,8 @@
     "build": "node build.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node --env-file=.env.local server.js"
+    "start": "node --env-file=.env.local server.js",
+    "vercel-build": "node build.js"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.11.0",
