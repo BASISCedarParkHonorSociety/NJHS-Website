@@ -142,6 +142,15 @@ export default function Dashboard() {
             <h1>
               <strong>Welcome {user?.firstName}</strong>
             </h1>
+            <h2 className="text-lg text-gray-600 dark:text-gray-400 mt-1">
+              {(user?.publicMetadata?.role as string) === "admin" ? (
+                `Role: Administrator | Committee: ${user?.publicMetadata?.committee}`
+              ) : (user?.publicMetadata?.role as string) === "lead" ? (
+                `Committee Lead for ${user?.publicMetadata?.committee}`
+              ) : (
+                `NJHS Member | Committee: ${user?.publicMetadata?.committee}`
+              )}
+            </h2>
 
             <br></br>
 

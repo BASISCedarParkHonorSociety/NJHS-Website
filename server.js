@@ -23,7 +23,7 @@ console.log(
 
 const app = express();
 
-app.use(bodyParser.json({ limit: "25mb" }));
+app.use(bodyParser.json({ limit: "50mb" }));
 
 if (!isDev) {
   app.use(express.static(path.join(__dirname, "dist")));
