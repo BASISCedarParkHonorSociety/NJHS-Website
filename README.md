@@ -20,18 +20,7 @@ The official website for the National Junior Honor Society at BASIS Cedar Park. 
 ## Environment Setup
 
 1. Run `mv .env.local.example .env.local` file in the root directory
-2. Edit the following environment variables:
-
-```env
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_KEY=your_clerk_secret_key
-WEBHOOK_SS=your_webhook_secret
-```
-
-To obtain these values:
-1. Create a Clerk application at [clerk.dev](https://clerk.dev)
-2. Copy your API keys from the Clerk dashboard
-3. Set up a webhook in Clerk and copy the signing secret
+2. Edit all the environment variables in .env.local.
 
 ## Installation
 
@@ -58,7 +47,7 @@ This will start:
 - Backend API server (Express.js with hot reload)
 
 The application will be available at:
-- Frontend: http://localhost:5173
+- Frontend (with api at /api): http://localhost:5173
 - Backend API: http://localhost:3000
 
 ## Production
@@ -84,6 +73,7 @@ The production build will be served from the Express.js server on port 3000.
   - `/lib` - Utility functions and shared logic
 - `/data` - Data storage
 - `/public` - Static assets
+- `/api` - Serverless infrastructure
 
 ## Contributing
 

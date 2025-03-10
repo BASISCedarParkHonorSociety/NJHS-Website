@@ -1,6 +1,4 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { ensureNewsletterFile, newsletterPath } from './utils.js';
+import { ensureNewsletterFile, updateNewsletterFile } from './utils.js';
 import { clerkClient } from '../clerk.js';
 
 export default async function handler(req, res) {
@@ -65,7 +63,7 @@ export default async function handler(req, res) {
 
     newsletter.posts.unshift(post);
 
-    await fs.writeFile(newsletterPath, JSON.stringify(newsletter, null, 2));
+    await updateNewsletterFile(newsletter);
 
     res.status(201).json({ success: true, post });
   } catch (error) {
