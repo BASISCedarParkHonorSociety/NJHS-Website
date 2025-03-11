@@ -17,3 +17,4 @@ sketch
 data/
 /dist
 .vercel
+/test
