@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import InitUser from "./pages/InitUser";
 import NotFound from "./pages/404";
+import HoursLog from "./pages/HoursLog";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/sign-in/*" element={<SignIn />} />
         <Route path="/sign-up/*" element={<SignUp />} />
         <Route path="/init-user" element={<InitUser />} />
+        <Route path="/demo/hours" element={<HoursLog />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
