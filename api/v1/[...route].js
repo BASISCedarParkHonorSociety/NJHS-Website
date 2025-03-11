@@ -12,13 +12,16 @@ export default async function handler(req, res) {
     const routePath = req.url.replace(/^\/api\/v1\/?/, '').split('?')[0];
     console.log(`API request received: ${req.method} ${routePath}`);
 
-    const handlerPath = join(process.cwd(), 'src', 'api', 'v1', `${routePath}.js`);
+    const handlerPath = join('../../src/api/v1', `${routePath}.js`);
     console.log(`Looking for handler at: ${handlerPath}`);
 
     try {
-      const modulePath = `file://${handlerPath}`;
+      console.log('Route path:', routePath);
+      console.log('__dirname:', __dirname);
+      
+      const modulePath = join(__dirname, '../../src/api/v1', `${routePath}.js`);
       console.log(`Importing module from: ${modulePath}`);
-      const module = await import(modulePath);
+      const module = await import(`file://${modulePath}`);
 
       if (!module.default) {
         console.error(`No default export found in ${handlerPath}`);
