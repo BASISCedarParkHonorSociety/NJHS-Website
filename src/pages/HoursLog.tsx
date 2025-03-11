@@ -3,7 +3,6 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import { format } from "date-fns";
 import {
   AlertCircle,
   CalendarIcon,
@@ -197,20 +196,21 @@ export default function VolunteerHoursForm() {
 
       // Prepare data for the signature request
       const requestData = {
-        requestId,
-        volunteerName,
-        supervisorName,
-        supervisorEmail,
-        hoursType,
-        hours,
-        date: form.getValues("date"),
-        description: form.getValues("description"),
+        to: supervisorEmail,
+        subject: "Volunteer Hours Signature Request",
+        body: `Dear ${supervisorName},\n\n${volunteerName} has requested your signature for their volunteer hours. Please review and sign the hours at your earliest convenience.\n\nThank you.`,
       };
 
-      // Send the signature request email
-      const result = { success: true, requestId: 0 };
+      // Send the signature request email using the API
+      const response = await fetch("/api/v1/email/sendEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      }).then((res) => res.json());
 
-      if (result.success) {
+      if (response.success) {
         // Update the signature request status
         setSignatureRequestStatus("requested");
         setSignatureRequestDialogOpen(false);
