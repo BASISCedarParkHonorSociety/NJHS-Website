@@ -33,7 +33,7 @@ app.use("/api", (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Origin, X-Requested-With, x-api-secret, Content-Type, Accept, Authorization"
   );
   if (req.method === "OPTIONS") {
     res.setHeader(
