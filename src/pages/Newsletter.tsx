@@ -815,7 +815,8 @@ const Newsletter = () => {
   
   const canManageNewsletter = isSignedIn && (
     user?.publicMetadata?.role === 'admin' || 
-    user?.publicMetadata?.role === 'lead'
+    user?.publicMetadata?.role === 'lead' ||
+    user?.username === 'newsletter-team'
   );
   
   const fetchPosts = async () => {
