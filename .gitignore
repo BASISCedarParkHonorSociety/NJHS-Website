@@ -18,4 +18,3 @@ data/
 /dist
 .vercel
 /test
-.env
